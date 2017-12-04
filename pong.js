@@ -276,11 +276,11 @@ function draw() {
 //"keydown" event is when the user is holding the key on the keyboard
 //one of these events are always listening, depending on whether
 //a key is being pressed
-document.addEventListener("keydown", keyDownHandler);
-document.addEventListener("keyup", keyUpHandler);
+document.addEventListener("keydown", keyDown);
+document.addEventListener("keyup", keyUp);
 
 
-function keyDownHandler(e) {
+function keyDown(e) {
   if(e.keyCode == 39) {
       rightPressed = true;
   }
@@ -294,7 +294,7 @@ function keyDownHandler(e) {
   }
 }
 
-function keyUpHandler(e) {
+function keyUp(e) {
   if(e.keyCode == 39) {
       rightPressed = false;
   }
