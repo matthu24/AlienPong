@@ -22,9 +22,9 @@ Alien Pong is a twist on the two classic games pong and space invaders.  Users w
 
 ## Architecture and Technologies 
 
-Vanilla JS for game logic and flow 
-HTML5 Canvas for game rendering and DOM manipulation 
-Anime JS for explosion visuals and other movements 
+* Vanilla JS for game logic and flow 
+* HTML5 Canvas for game rendering and DOM manipulation 
+* Anime JS for explosion visuals and other movements 
 
 File structure: 
 * index.html
@@ -36,30 +36,30 @@ File structure:
 
 Weekend
 
-Research
-Implement single player version of pong 
+* Research
+* Implement single player version of pong 
 
 Day 1
 
-Set up file structure and web pack
-Give the user ability to fire missiles
-Establish method for collision detection between missiles and alien invaders 
+* Set up file structure and web pack
+* Give the user ability to fire missiles
+* Establish method for collision detection between missiles and alien invaders 
 
 Day 2
 
-Make invaders appear randomly from above the canvas
-Learn enough AnimeJS to help with: 
+* Make invaders appear randomly from above the canvas
+* Learn enough AnimeJS to help with: 
 1. Alien explosion (use anime.js fireworks)
 2. Projectile and alien movement 
 
 
 Day 3
 
-Continue to style game and work with AnimeJS
-Increase difficulty as game progresses
+* Continue to style game and work with AnimeJS
+* Increase difficulty as game progresses
     -Figure out how to gradually increase ball speed as well as increase number of aliens falling from sky 
 
 Day 4
 
-Polish the game and work out kinks
-Catchup/backend
+* Polish the game and work out kinks
+* Catchup/backend
