@@ -15,7 +15,7 @@ Bonus: back end for high scores (measured either by number of invaders destroyed
 
 ## WireFrames
 
-
+<img src = "https://s3-us-west-1.amazonaws.com/fullstackfiles/JSWireframe.png"/>
 
 
 
