@@ -1,4 +1,4 @@
-# AlienPong
+# Alien Pong
 
 ## Background and Overview 
 
