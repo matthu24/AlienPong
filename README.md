@@ -35,6 +35,7 @@ Research
 Implement single player version of pong 
 
 Day 1
+
 Set up file structure and web pack
 Give the user ability to fire missiles
 Establish method for collision detection between missiles and alien invaders 
