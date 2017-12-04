@@ -13,7 +13,11 @@ Increase difficulty as game progresses (speed up ball, increase invaders)
 Bonus: back end for high scores (measured either by number of invaders destroyed or time survived)
 
 
-## WireFrames 
+## WireFrames
+
+
+
+
 
 
 ## Architecture and Technologies 
@@ -30,7 +34,8 @@ File structure:
 
 ## Implementation Timeline 
 
-Weekend:
+Weekend
+
 Research
 Implement single player version of pong 
 
