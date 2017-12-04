@@ -6,11 +6,11 @@ Alien Pong is a twist on the two classic games pong and space invaders.  Users w
 
 ## Functionality and MVP
 
-Single player pong
-Alien invaders falling from sky and ability to shoot them 
-Styling, CSS, and animeJS
-Increase difficulty as game progresses (speed up ball, increase invaders)
-Bonus: back end for high scores (measured either by number of invaders destroyed or time survived)
+* Single player pong
+* Alien invaders falling from sky and ability to shoot them 
+* Styling, CSS, and animeJS
+* Increase difficulty as game progresses (speed up ball, increase invaders)
+* Bonus: back end for high scores (measured either by number of invaders destroyed or time survived)
 
 
 ## WireFrames
