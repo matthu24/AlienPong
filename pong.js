@@ -339,7 +339,7 @@ function keyDown(e) {
       leftPressed = true;
       //arrow up
   }else if (e.keyCode == 38) {
-  
+
     upPressed = true;
   }else if (e.keyCode==40){
     downPressed = true;
@@ -361,20 +361,22 @@ function keyUp(e) {
 }
 
 function speedBall(){
-  // if (dx > 0) {
-  //   dx +=0.1;
-  // }else {
-  //   dx -=0.1;
-  // }
-  //
-  // if (dy > 0) {
-  //   dy+=0.1;
-  // }else {
-  //   dy-=0.1;
-  // }
+  if (dx > 0) {
+    dx +=0.03;
+  }else {
+    dx -=0.03;
+  }
+
+  if (dy > 0) {
+    dy+=0.03;
+  }else {
+    dy-=0.03;
+  }
 }
 
-setInterval(draw,10);
+const begin = document.getElementById("begin");
+begin.addEventListener("click", setInterval(draw,10));
+// setInterval(draw,10);
 setInterval(speedBall,5000);
 
 

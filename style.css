@@ -1,7 +1,27 @@
 body{
   display: flex;
   flex-direction: column;
+  /*color:white;*/
   /*justify-content: center;*/
   align-items: center;
   font-family: 'Spectral SC', serif;
+}
+h1{
+  font-weight: bold;
+  font-size: 36px;
+}
+
+body::after{
+
+
+  content: "";
+  /*// background: url(image.jpg);*/
+  background: url("https://s3-us-west-1.amazonaws.com/fullstackfiles/Space.png");
+  opacity: 0.3;
+  top: 0;
+  left: 0;
+  bottom: -20px;
+  right: 0;
+  position: absolute;
+  z-index: -1;
 }
