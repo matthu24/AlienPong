@@ -33,8 +33,9 @@ let missileWidth = 5;
 let missileX =shipX;
 //want it to be below the canvas at first
 let missileY = canvas.height;
+
 // let missileY2 = canvas.height;
-let missileDY = 0.5;
+let missileDY = 0;
 
 
 
@@ -86,7 +87,7 @@ function drawScore() {
 }
 
 //return boolean
-function winGame(){
+function gameOver(){
 
   for (let i = 0; i < invaders.length; i++) {
     for (let j = 0; j < invaders[0].length; j++) {
@@ -255,8 +256,8 @@ function draw() {
   //   missileDY2 = 0;
   // }
 
-  if (winGame() === true) {
-    // alert("You win!");
+  if (gameOver() === true) {
+    alert("You win!" );
     document.location.reload();
   }
 
@@ -278,6 +279,7 @@ function draw() {
     //makes sure the missile starts at the same position as the ship
     //when it is launched
     if (missileY === canvas.height) {
+
       missileX = shipX + shipWidth/2;
     }
 
@@ -337,6 +339,7 @@ function keyDown(e) {
       leftPressed = true;
       //arrow up
   }else if (e.keyCode == 38) {
+  
     upPressed = true;
   }else if (e.keyCode==40){
     downPressed = true;
@@ -359,15 +362,15 @@ function keyUp(e) {
 
 function speedBall(){
   // if (dx > 0) {
-  //   dx +=0.2;
+  //   dx +=0.1;
   // }else {
-  //   dx -=0.2;
+  //   dx -=0.1;
   // }
   //
   // if (dy > 0) {
-  //   dy+=0.2;
+  //   dy+=0.1;
   // }else {
-  //   dy-=0.2;
+  //   dy-=0.1;
   // }
 }
 
