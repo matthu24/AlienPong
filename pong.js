@@ -70,13 +70,13 @@ let invaders = [];
 for(let c=0; c<invaderColumnCount; c++) {
     invaders[c] = [];
     for(let r=0; r<invaderRowCount; r++) {
-      //if status is 1, draw it,
-      //if status is 0, don't
-        invaders[c][r] = { x: 0, y: 0, status: true };
+      //if exist is 1, draw it,
+      //if exist is 0, don't
+        invaders[c][r] = { x: 0, y: 0, exist: true };
     }
 }
 //invaders:
-//[ [ { x: 0, y: 0, status:true }, { x: 0, y: 0 }, { x: 0, y: 0 } ],
+//[ [ { x: 0, y: 0, exist:true }, { x: 0, y: 0 }, { x: 0, y: 0 } ],
 //  [ { x: 0, y: 0 }, { x: 0, y: 0 }, { x: 0, y: 0 } ],
 //  [ { x: 0, y: 0 }, { x: 0, y: 0 }, { x: 0, y: 0 } ] ]
 
@@ -101,7 +101,7 @@ function gameOver(){
     for (let j = 0; j < invaders[0].length; j++) {
       //if there are any invaders left, the game is not over
 
-      if (invaders[i][j].status === true) {
+      if (invaders[i][j].exist === true) {
         return false;
       }
     }
@@ -120,7 +120,7 @@ function drawInvaders(offsetDown) {
   for(let c=0; c<invaderColumnCount; c++) {
     for(let r=0; r<invaderRowCount; r++) {
       //if invader is still alive, draw it again
-      if (invaders[c][r].status === true) {
+      if (invaders[c][r].exist === true) {
         let colorNum = Math.floor(Math.random() * 6);
         //generate a random
         // let num = (Math.random());
@@ -211,13 +211,13 @@ function collisionDetection() {
       //invaders[[i][j] gives you the location object of the particular
       //invader : {x: 0,y:0}
       let b = invaders[i][j];
-      if(b.status === true){
+      if(b.exist === true){
         //this makes sure the missile intersects the position of the invader
         if (missileX > b.x -invaderRadius && missileX < b.x + invaderRadius && missileY > b.y && missileY < b.y+invaderHeight) {
           // dy=-dy;
           missileY = canvas.height;
           missileDY = 0;
-          b.status = false;
+          b.exist = false;
           score++;
         }
       }
@@ -234,7 +234,7 @@ function draw() {
   //x,y coords of the bottom right of a rect
   //clears that whole area every frame ^^
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  drawBall();
+  // drawBall();
   drawShip();
   drawInvaders(invaderDY);
   drawMissile(missileX,missileY,missileWidth,missileHeight);
@@ -375,9 +375,14 @@ function speedBall(){
 }
 
 const begin = document.getElementById("begin");
-begin.addEventListener("click", setInterval(draw,10));
+begin.addEventListener("click", beginGame);
+
+function beginGame(){
+  setInterval(draw,10);
+  setInterval(speedBall,5000);
+}
 // setInterval(draw,10);
-setInterval(speedBall,5000);
+
 
 
 
