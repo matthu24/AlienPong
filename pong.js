@@ -46,13 +46,13 @@ let downPressed = false;
 
 
 //invaders to bomb
-let invaderRowCount = 3;
+let invaderRowCount = 8;
 let invaderColumnCount = 6;
 let invaderRadius = 15;
 let invaderHeight = 10;
 let invaderPadding = 60;
 //sets how far up the invaders come
-let invaderOffsetTop = -80;
+let invaderOffsetTop = -500;
 let invaderOffsetLeft = 50;
 let invaderY = 0;
 //direction of invaders is positive or going down
@@ -61,6 +61,9 @@ let invaderDX = 0;
 
 
 let score = 0;
+
+let colors = ["#FF355E","#FF6037","#FFFF66"];
+
 //for collision detection purposes
 let invaders = [];
 for(let c=0; c<invaderColumnCount; c++) {
@@ -84,8 +87,19 @@ function drawScore() {
 
 //return boolean
 function winGame(){
+
   for (let i = 0; i < invaders.length; i++) {
     for (let j = 0; j < invaders[0].length; j++) {
+      if (invaders[i][j].y > canvas.height) {
+        return true;
+      }
+    }
+  }
+
+  for (let i = 0; i < invaders.length; i++) {
+    for (let j = 0; j < invaders[0].length; j++) {
+      //if there are any invaders left, the game is not over
+
       if (invaders[i][j].status === true) {
         return false;
       }
@@ -100,19 +114,20 @@ function winGame(){
 
 
 
+
 function drawInvaders(offsetDown) {
   for(let c=0; c<invaderColumnCount; c++) {
     for(let r=0; r<invaderRowCount; r++) {
       //if invader is still alive, draw it again
       if (invaders[c][r].status === true) {
-
+        let colorNum = Math.floor(Math.random() * 6);
         //generate a random
         // let num = (Math.random());
         // num *= Math.floor(Math.random()*2) === 1 ? 1 : -1;
         // invaderDX += num;
 
         let invaderX = (c*(invaderRadius+invaderPadding))+invaderOffsetLeft;
-        invaderY = (r*(invaderHeight+invaderPadding))+invaderOffsetTop + offsetDown;
+        invaderY = ((0.2)*c*r*(invaderHeight+invaderPadding))+invaderOffsetTop + offsetDown;
           //lets us know the position of the invaders
         invaders[c][r].x = invaderX;
         invaders[c][r].y = invaderY;
@@ -343,17 +358,17 @@ function keyUp(e) {
 }
 
 function speedBall(){
-  if (dx > 0) {
-    dx +=0.2;
-  }else {
-    dx -=0.2;
-  }
-
-  if (dy > 0) {
-    dy+=0.2;
-  }else {
-    dy-=0.2;
-  }
+  // if (dx > 0) {
+  //   dx +=0.2;
+  // }else {
+  //   dx -=0.2;
+  // }
+  //
+  // if (dy > 0) {
+  //   dy+=0.2;
+  // }else {
+  //   dy-=0.2;
+  // }
 }
 
 setInterval(draw,10);
