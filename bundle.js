@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,10 +71,102 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// import {ctx, canvas} from './pong';
+
+//set this.ball initial position and movement
+//where the this.ball starts
+
+// export const canvas = document.getElementById("myCanvas");
+//
+// //ctx stores the 2D rendering context
+// //this is the tool we use to paint on the canvas
+// export const ctx = canvas.getContext("2d");
+
+// console.log("ball");
+const canvas = document.getElementById("myCanvas");
+const ctx = canvas.getContext("2d");
+
+// export const ballX = canvas.width/2;
+// export const ballY = canvas.height-100;
+//
+// //define ballRadius
+// export const ballRadius = 10;
+// export const ballDX = 2;
+// //positive dx is to the right
+// export const ballDY=-2;
+//positive dy is down
+
+
+// export const drawBall = function drawBall() {
+//   ctx.beginPath();
+//   ctx.arc(ballX, ballY, ballRadius, 0, Math.PI*2);
+//   ctx.fillStyle = "#FFD700";
+//   ctx.fill();
+//   ctx.closePath();
+// };
+
+function Ball() {
+  this.ballX = canvas.width / 2;
+  this.ballY = canvas.height - 100;
+  this.ballRadius = 10;
+  this.ballDX = 2;
+  this.ballDY = -2;
+}
+
+Ball.prototype.drawBall = function drawBall() {
+  ctx.beginPath();
+  ctx.arc(this.ballX, this.ballY, this.ballRadius, 0, Math.PI * 2);
+  ctx.fillStyle = "#FFD700";
+  ctx.fill();
+  ctx.closePath();
+};
+
+//need to pass in ship class 
+Ball.prototype.animate = function animate(ship, score) {
+  if (this.ballX + this.ballDX > canvas.width - this.ballRadius || this.ballX + this.ballDX < this.ballRadius) {
+    this.ballDX = -this.ballDX;
+  }
+
+  if (this.ballY + this.ballDY < this.ballRadius) {
+
+    this.ballDY = -this.ballDY;
+    //if the this.ball touches the bottom of the canvas the
+    //game is over
+  } else {
+    //if this.ball hits the ship it changes direction
+
+    if (this.ballY + this.ballDY > canvas.height - this.ballRadius - ship.shipHeight && this.ballX > ship.shipX && this.ballX < ship.shipX + ship.shipWidth) {
+      this.ballDY = -this.ballDY;
+    } else if (this.ballY + this.ballDY > canvas.height - this.ballRadius) {
+      //if ship and this.ball are on the same y coordinate
+      // alert("Game over");
+      // document.location.reload();
+      // document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
+      // modal.style.display = "block";
+    }
+  }
+  this.ballX += this.ballDX;
+  this.ballY += this.ballDY;
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Ball);
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ball__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ship__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ship___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ship__);
 // //
+// console.log("pong");
+
+
+//
 // import {drawBall} from "./ball";
-// import {ballX,ballY,ballRadius,dx,dy} from "./ball";
+// import {ballX,ballY,ballRadius,ballDX,ballDY} from "./ball";
 
 
 const canvas = document.getElementById("myCanvas");
@@ -90,26 +182,28 @@ const ctx = canvas.getContext("2d");
 //
 // set ball initial position and movement
 // where the ball starts
-let ballX = canvas.width / 2;
-let ballY = canvas.height - 100;
-//define ballRadius
-let ballRadius = 10;
-//sets initial direction of ball movement
-//also affects the velocity of the ball
-let dx = 2;
-//positive dx is to the right
-let dy = -2;
-//positive dy is down
+// let ballX = canvas.width/2;
+// let ballY = canvas.height-100;
+// //define ballRadius
+// let ballRadius = 10;
+// //sets initial direction of ball movement
+// //also affects the velocity of the ball
+// let ballDX = 2;
+// //positive ballDX is to the right
+// let ballDY=-2;
+// //positive ballDY is down
 
 
 //height width and starting x position
-let shipHeight = 10;
-let shipWidth = 75;
-let shipX = (canvas.width - shipWidth) / 2;
-let shipY = canvas.height - shipHeight;
+// let shipHeight = 10;
+// let shipWidth = 75;
+// let shipX = (canvas.width-shipWidth)/2;
+// let shipY = (canvas.height-shipHeight);
+
 
 let missileHeight = 10;
 let missileWidth = 5;
+//need to pass in ship object to missile class
 let missileX = shipX;
 //want it to be below the canvas at first
 let missileY = canvas.height;
@@ -126,7 +220,7 @@ let downPressed = false;
 //invaders to bomb
 let invaderRowCount = 8;
 let invaderColumnCount = 6;
-let invaderRadius = 15;
+let invaderWidth = 15;
 let invaderHeight = 10;
 let invaderPadding = 60;
 //sets how far up the invaders come
@@ -138,8 +232,6 @@ let invaderDY = 0;
 let invaderDX = 0;
 
 let score = 0;
-
-let colors = ["#FF355E", "#FF6037", "#FFFF66"];
 
 //for collision detection purposes
 let invaders = [];
@@ -171,6 +263,8 @@ function gameOver() {
   for (let i = 0; i < invaders.length; i++) {
     for (let j = 0; j < invaders[0].length; j++) {
       if (invaders[i][j].y > canvas.height) {
+        // debugger
+
         return true;
       }
     }
@@ -207,14 +301,14 @@ function drawInvaders(offsetDown) {
         // num *= Math.floor(Math.random()*2) === 1 ? 1 : -1;
         // invaderDX += num;
 
-        let invaderX = c * (invaderRadius + invaderPadding) + invaderOffsetLeft;
+        let invaderX = c * (invaderWidth + invaderPadding) + invaderOffsetLeft;
         invaderY = 0.2 * c * r * (invaderHeight + invaderPadding) + invaderOffsetTop + offsetDown;
         //lets us know the position of the invaders
         invaders[c][r].x = invaderX;
         invaders[c][r].y = invaderY;
         //actually paints the invaders
         // ctx.beginPath();
-        // ctx.rect(invaderX, invaderY, invaderRadius, invaderHeight);
+        // ctx.rect(invaderX, invaderY, invaderWidth, invaderHeight);
         // ctx.fillStyle = "#0095DD";
         // ctx.fill();
         // ctx.closePath();
@@ -224,18 +318,18 @@ function drawInvaders(offsetDown) {
         // //arc radius,
         // //start angle and end angle
         // //direction of draw: false is clockwise
-        ctx.arc(invaderX, invaderY, invaderRadius, 0, Math.PI * 2, false);
+        ctx.arc(invaderX, invaderY, invaderWidth, 0, Math.PI * 2, false);
         // ctx.moveTo(75, 50);
-        ctx.moveTo(invaderX - invaderRadius, invaderY);
+        ctx.moveTo(invaderX - invaderWidth, invaderY);
         // ctx.lineTo(85, 90);
-        ctx.lineTo(invaderX - invaderRadius / 2, invaderY + 20);
+        ctx.lineTo(invaderX - invaderWidth / 2, invaderY + 20);
         //   ctx.lineTo(100, 62);
 
         ctx.lineTo(invaderX, invaderY + 4);
         //         ctx.lineTo(115, 90);
-        ctx.lineTo(invaderX + invaderRadius / 2, invaderY + 20);
-        ctx.lineTo(invaderX + invaderRadius, invaderY);
-        ctx.lineTo(invaderX, invaderY - invaderRadius);
+        ctx.lineTo(invaderX + invaderWidth / 2, invaderY + 20);
+        ctx.lineTo(invaderX + invaderWidth, invaderY);
+        ctx.lineTo(invaderX, invaderY - invaderWidth);
         // // ctx.lineTo(100, 75);
         // ctx.lineTo(125,50);
         // ctx.lineTo(100, 25);
@@ -248,19 +342,19 @@ function drawInvaders(offsetDown) {
   }
 }
 
-function drawShip() {
-  ctx.beginPath();
-  //x,y coords of the top left coner of a rect
-  //x,y coords of the bottom right of a rect
-
-  //(pos left the start of the shape,pos down the start of the shape, width, height )
-  // ctx.rect(shipX, canvas.height-shipHeight, shipWidth, shipHeight);
-  ctx.rect(shipX, shipY, shipWidth, shipHeight);
-
-  ctx.fillStyle = "#0095DD";
-  ctx.fill();
-  ctx.closePath();
-}
+// function drawShip() {
+//   ctx.beginPath();
+//   //x,y coords of the top left coner of a rect
+//   //x,y coords of the bottom right of a rect
+//
+//   //(pos left the start of the shape,pos down the start of the shape, width, height )
+//   // ctx.rect(shipX, canvas.height-shipHeight, shipWidth, shipHeight);
+//   ctx.rect(shipX, shipY, shipWidth, shipHeight);
+//
+//   ctx.fillStyle = "#0095DD";
+//   ctx.fill();
+//   ctx.closePath();
+// }
 
 // module.exports = DrawShip;
 
@@ -278,13 +372,14 @@ function drawMissile(w, x, y, z) {
 
 
 // //the bigger this number, the slower the ball updates or moves
-function drawBall() {
-  ctx.beginPath();
-  ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
-  ctx.fillStyle = "#C0C0C0";
-  ctx.fill();
-  ctx.closePath();
-}
+// function drawBall() {
+//   ctx.beginPath();
+//   ctx.arc(ballX, ballY, ballRadius, 0, Math.PI*2);
+//   ctx.fillStyle = "#C0C0C0";
+//   ctx.fill();
+//   ctx.closePath();
+// }
+
 
 //loop through all invaders and compare position with
 //ball's coordinates as each frame is drawn
@@ -297,8 +392,8 @@ function collisionDetection() {
       let b = invaders[i][j];
       if (b.exist === true) {
         //this makes sure the missile intersects the position of the invader
-        if (missileX > b.x - invaderRadius && missileX < b.x + invaderRadius && missileY > b.y && missileY < b.y + invaderHeight) {
-          // dy=-dy;
+        if (missileX > b.x - invaderWidth && missileX < b.x + invaderWidth && missileY > b.y && missileY < b.y + invaderHeight) {
+          // ballDY=-ballDY;
           missileY = canvas.height;
           missileDY = 0;
           b.exist = false;
@@ -318,11 +413,16 @@ function draw() {
   //x,y coords of the bottom right of a rect
   //clears that whole area every frame ^^
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawBall();
-  drawShip();
-  drawInvaders(invaderDY);
-  drawMissile(missileX, missileY, missileWidth, missileHeight);
-  // drawMissile(missileX,missileY2,missileWidth,missileHeight);
+  const ball = new __WEBPACK_IMPORTED_MODULE_0__ball__["a" /* default */]();
+  ball.drawBall();
+  ball.animate();
+
+  // debugger
+  // drawBall();
+  // drawShip();
+  // drawInvaders(invaderDY);
+  // drawMissile(missileX,missileY,missileWidth,missileHeight);
+  // // drawMissile(missileX,missileY2,missileWidth,missileHeight);
   // drawMissile();
   collisionDetection();
   // drawScore();
@@ -375,34 +475,38 @@ function draw() {
     // }
   }
 
-  //x + dx together are the new x pos of the ball
+  //x + ballDX together are the new x pos of the ball
   //if it goes above canvas height or below zero, change y direction
 
   //change x direction of ball if it hits the wall
-  if (ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) {
-    dx = -dx;
-  }
-
-  //change y direction if ball hits ceiling
-  if (ballY + dy < ballRadius) {
-    dy = -dy;
-    //if the ball touches the bottom of the canvas the
-    //game is over
-  } else {
-    //if ball hits the ship it changes direction
-    if (ballY + dy > canvas.height - ballRadius - shipHeight && ballX > shipX && ballX < shipX + shipWidth) {
-      dy = -dy;
-    } else if (ballY + dy > canvas.height - ballRadius) {
-      //if ship and ball are on the same y coordinate
-      // alert("Game over");
-      // document.location.reload();
-      document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
-      modal.style.display = "block";
-    }
-  }
+  // console.log(ballDX);
+  // if(ballX + ballDX > canvas.width-ballRadius || ballX + ballDX < ballRadius) {
+  //   ballDX = -ballDX;
+  // }
+  //
+  // //change y direction if ball hits ceiling
+  //   // console.log(ballDY);
+  // if(ballY + ballDY < ballRadius) {
+  //
+  //     ballDY = -ballDY;
+  //     //if the ball touches the bottom of the canvas the
+  //     //game is over
+  // }else {
+  //   //if ball hits the ship it changes direction
+  //
+  //   if(ballY + ballDY > canvas.height-ballRadius-shipHeight&&ballX > shipX && ballX < shipX + shipWidth) {
+  //     ballDY = -ballDY;
+  //   }else if (ballY + ballDY > canvas.height-ballRadius ) {
+  //   //if ship and ball are on the same y coordinate
+  //   // alert("Game over");
+  //     // document.location.reload();
+  //     document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
+  //     modal.style.display = "block";
+  //   }
+  // }
   //update ball and missile position each time
-  ballX += dx;
-  ballY += dy;
+  // ballX+=ballDX;
+  // ballY+=ballDY;
   missileY += missileDY;
   invaderDY += 0.05;
 
@@ -446,16 +550,16 @@ function keyUp(e) {
 }
 
 function speedBall() {
-  if (dx > 0) {
-    dx += 0.03;
+  if (ballDX > 0) {
+    ballDX += 0.03;
   } else {
-    dx -= 0.03;
+    ballDX -= 0.03;
   }
 
-  if (dy > 0) {
-    dy += 0.03;
+  if (ballDY > 0) {
+    ballDY += 0.03;
   } else {
-    dy -= 0.03;
+    ballDY -= 0.03;
   }
 }
 
@@ -526,6 +630,51 @@ window.onclick = function (event) {
 // ctx.strokeStyle = "rgba(0, 0, 255, 0.5)";
 // ctx.stroke();
 // ctx.closePath();
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+const canvas = document.getElementById("myCanvas");
+/* unused harmony export canvas */
+
+
+const ctx = canvas.getContext("2d");
+/* unused harmony export ctx */
+
+
+function Ship() {
+  this.shipHeight = 10;
+  this.shipWidth = 75;
+  this.shipX = (canvas.width - this.shipWidth) / 2;
+  this.shipY = canvas.height - this.shipHeight;
+}
+
+Ship.prototype.drawShip = function drawShip() {
+  ctx.beginPath();
+  //x,y coords of the top left coner of a rect
+  //x,y coords of the bottom right of a rect
+
+  //(pos left the start of the shape,pos down the start of the shape, width, height )
+  // ctx.rect(shipX, canvas.height-shipHeight, shipWidth, shipHeight);
+  ctx.rect(this.shipX, this.shipY, this.shipWidth, this.shipHeight);
+
+  ctx.fillStyle = "#0095DD";
+  ctx.fill();
+  ctx.closePath();
+};
+
+//need to pass in rightPressed and leftPressed variables 
+Ship.prototype.animate = function animate(rightPressed, leftPressed) {
+  if (rightPressed === true && this.shipX < canvas.width - this.shipWidth) {
+    this.shipX += 7;
+    //move ship left
+  } else if (leftPressed === true && this.shipX > 0) {
+    this.shipX -= 7;
+  }
+};
 
 /***/ })
 /******/ ]);
