@@ -12,7 +12,7 @@ function Ship(){
   this.shipY = (canvas.height-this.shipHeight);
 }
 
-Ship.prototype.drawShip = function drawShip() {
+Ship.prototype.drawShip = function drawShip(rightPressed,leftPressed) {
   ctx.beginPath();
   //x,y coords of the top left coner of a rect
   //x,y coords of the bottom right of a rect
@@ -24,14 +24,25 @@ Ship.prototype.drawShip = function drawShip() {
   ctx.fillStyle = "#0095DD";
   ctx.fill();
   ctx.closePath();
+  if (rightPressed === true && this.shipX < canvas.width - this.shipWidth ) {
+    this.shipX += 7;
+  //move ship left
+  } else if (leftPressed === true && this.shipX > 0) {
+    this.shipX-= 7;
+  }
+
 };
 
-//need to pass in rightPressed and leftPressed variables 
+//need to pass in rightPressed and leftPressed variables
 Ship.prototype.animate = function animate(rightPressed,leftPressed) {
   if (rightPressed === true && this.shipX < canvas.width - this.shipWidth ) {
     this.shipX += 7;
   //move ship left
-} else if (leftPressed === true && this.shipX > 0) {
+  } else if (leftPressed === true && this.shipX > 0) {
     this.shipX-= 7;
   }
+
+
 };
+
+export default Ship;

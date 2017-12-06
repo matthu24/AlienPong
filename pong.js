@@ -2,6 +2,7 @@
 // console.log("pong");
 import Ball from "./ball";
 import Ship from "./ship";
+import Missile from "./missile";
 //
 // import {drawBall} from "./ball";
 // import {ballX,ballY,ballRadius,ballDX,ballDY} from "./ball";
@@ -39,15 +40,15 @@ export const ctx = canvas.getContext("2d");
 // let shipY = (canvas.height-shipHeight);
 
 
-let missileHeight = 10;
-let missileWidth = 5;
-//need to pass in ship object to missile class
-let missileX =shipX;
-//want it to be below the canvas at first
-let missileY = canvas.height;
+// let missileHeight = 10;
+// let missileWidth = 5;
+// //need to pass in ship object to missile class
+// let missileX =shipX;
+// //want it to be below the canvas at first
+// let missileY = canvas.height;
 
 // let missileY2 = canvas.height;
-let missileDY = 0;
+// let missileDY = 0;
 
 
 
@@ -59,33 +60,33 @@ let downPressed = false;
 
 
 //invaders to bomb
-let invaderRowCount = 8;
-let invaderColumnCount = 6;
-let invaderWidth = 15;
-let invaderHeight = 10;
-let invaderPadding = 60;
-//sets how far up the invaders come
-let invaderOffsetTop = -500;
-let invaderOffsetLeft = 50;
-let invaderY = 0;
-//direction of invaders is positive or going down
-let invaderDY = 0;
-let invaderDX = 0;
+// let invaderRowCount = 8;
+// let invaderColumnCount = 6;
+// let invaderWidth = 15;
+// let invaderHeight = 10;
+// let invaderPadding = 60;
+// //sets how far up the invaders come
+// let invaderOffsetTop = -500;
+// let invaderOffsetLeft = 50;
+// let invaderY = 0;
+// //direction of invaders is positive or going down
+// let invaderDY = 0;
+// let invaderDX = 0;
 
 
 let score = 0;
 
 
 //for collision detection purposes
-let invaders = [];
-for(let c=0; c<invaderColumnCount; c++) {
-    invaders[c] = [];
-    for(let r=0; r<invaderRowCount; r++) {
-      //if exist is 1, draw it,
-      //if exist is 0, don't
-        invaders[c][r] = { x: 0, y: 0, exist: true };
-    }
-}
+// let invaders = [];
+// for(let c=0; c<invaderColumnCount; c++) {
+//     invaders[c] = [];
+//     for(let r=0; r<invaderRowCount; r++) {
+//       //if exist is 1, draw it,
+//       //if exist is 0, don't
+//         invaders[c][r] = { x: 0, y: 0, exist: true };
+//     }
+// }
 //invaders:
 //[ [ { x: 0, y: 0, exist:true }, { x: 0, y: 0 }, { x: 0, y: 0 } ],
 //  [ { x: 0, y: 0 }, { x: 0, y: 0 }, { x: 0, y: 0 } ],
@@ -135,60 +136,60 @@ function gameOver(){
 
 
 
-function drawInvaders(offsetDown) {
-  for(let c=0; c<invaderColumnCount; c++) {
-    for(let r=0; r<invaderRowCount; r++) {
-      //if invader is still alive, draw it again
-      if (invaders[c][r].exist === true) {
-        let colorNum = Math.floor(Math.random() * 6);
-        //generate a random
-        // let num = (Math.random());
-        // num *= Math.floor(Math.random()*2) === 1 ? 1 : -1;
-        // invaderDX += num;
-
-        let invaderX = (c*(invaderWidth+invaderPadding))+invaderOffsetLeft;
-        invaderY = ((0.2)*c*r*(invaderHeight+invaderPadding))+invaderOffsetTop + offsetDown;
-          //lets us know the position of the invaders
-        invaders[c][r].x = invaderX;
-        invaders[c][r].y = invaderY;
-        //actually paints the invaders
-        // ctx.beginPath();
-        // ctx.rect(invaderX, invaderY, invaderWidth, invaderHeight);
-        // ctx.fillStyle = "#0095DD";
-        // ctx.fill();
-        // ctx.closePath();
-        //   //draw a circle
-          ctx.beginPath();
-        // //x coord of arc's center, y coord of arc's center,
-        // //arc radius,
-        // //start angle and end angle
-        // //direction of draw: false is clockwise
-        ctx.arc(invaderX, invaderY, invaderWidth, 0, Math.PI*2, false);
-        // ctx.moveTo(75, 50);
-        ctx.moveTo(invaderX-invaderWidth,invaderY);
-// ctx.lineTo(85, 90);
-        ctx.lineTo(invaderX-invaderWidth/2,invaderY+20);
-//   ctx.lineTo(100, 62);
-
-        ctx.lineTo(invaderX,invaderY + 4);
-//         ctx.lineTo(115, 90);
-        ctx.lineTo(invaderX + invaderWidth/2,invaderY+20);
-        ctx.lineTo(invaderX + invaderWidth, invaderY);
-        ctx.lineTo(invaderX,invaderY-invaderWidth);
-// // ctx.lineTo(100, 75);
-// ctx.lineTo(125,50);
-// ctx.lineTo(100, 25);
-        // ctx.fillStyle = "#0095DD";
-        ctx.fillStyle = "#FF0000";
-        ctx.fill();
-        ctx.closePath();
-      }
-
-    }
-  }
-}
-
-
+// function drawInvaders(offsetDown) {
+//   for(let c=0; c<invaderColumnCount; c++) {
+//     for(let r=0; r<invaderRowCount; r++) {
+//       //if invader is still alive, draw it again
+//       if (invaders[c][r].exist === true) {
+//         let colorNum = Math.floor(Math.random() * 6);
+//         //generate a random
+//         // let num = (Math.random());
+//         // num *= Math.floor(Math.random()*2) === 1 ? 1 : -1;
+//         // invaderDX += num;
+//
+//         let invaderX = (c*(invaderWidth+invaderPadding))+invaderOffsetLeft;
+//         invaderY = ((0.2)*c*r*(invaderHeight+invaderPadding))+invaderOffsetTop + offsetDown;
+//           //lets us know the position of the invaders
+//         invaders[c][r].x = invaderX;
+//         invaders[c][r].y = invaderY;
+//         //actually paints the invaders
+//         // ctx.beginPath();
+//         // ctx.rect(invaderX, invaderY, invaderWidth, invaderHeight);
+//         // ctx.fillStyle = "#0095DD";
+//         // ctx.fill();
+//         // ctx.closePath();
+//         //   //draw a circle
+//           ctx.beginPath();
+//         // //x coord of arc's center, y coord of arc's center,
+//         // //arc radius,
+//         // //start angle and end angle
+//         // //direction of draw: false is clockwise
+//         ctx.arc(invaderX, invaderY, invaderWidth, 0, Math.PI*2, false);
+//         // ctx.moveTo(75, 50);
+//         ctx.moveTo(invaderX-invaderWidth,invaderY);
+// // ctx.lineTo(85, 90);
+//         ctx.lineTo(invaderX-invaderWidth/2,invaderY+20);
+// //   ctx.lineTo(100, 62);
+//
+//         ctx.lineTo(invaderX,invaderY + 4);
+// //         ctx.lineTo(115, 90);
+//         ctx.lineTo(invaderX + invaderWidth/2,invaderY+20);
+//         ctx.lineTo(invaderX + invaderWidth, invaderY);
+//         ctx.lineTo(invaderX,invaderY-invaderWidth);
+// // // ctx.lineTo(100, 75);
+// // ctx.lineTo(125,50);
+// // ctx.lineTo(100, 25);
+//         // ctx.fillStyle = "#0095DD";
+//         ctx.fillStyle = "#FF0000";
+//         ctx.fill();
+//         ctx.closePath();
+//       }
+//
+//     }
+//   }
+// }
+//
+//
 
 
 
@@ -207,14 +208,14 @@ function drawInvaders(offsetDown) {
 // }
 
 // module.exports = DrawShip;
-
-function drawMissile(w,x,y,z){
-  ctx.beginPath();
-  ctx.rect(w,x,y,z);
-  ctx.fillStyle = "#0095DD";
-  ctx.fill();
-  ctx.closePath();
-}
+//
+// function drawMissile(w,x,y,z){
+//   ctx.beginPath();
+//   ctx.rect(w,x,y,z);
+//   ctx.fillStyle = "#0095DD";
+//   ctx.fill();
+//   ctx.closePath();
+// }
 
 // let missileDX = 0;
 
@@ -241,6 +242,9 @@ function drawMissile(w,x,y,z){
 //loop through all invaders and compare position with
 //ball's coordinates as each frame is drawn
 //invaders is the location array
+
+
+
 function collisionDetection() {
   for (let i = 0; i < invaderColumnCount; i++) {
     for (let j = 0; j < invaderRowCount; j++) {
@@ -261,7 +265,9 @@ function collisionDetection() {
   }
 }
 
-//draw is responsible for
+const ball = new Ball();
+const ship = new Ship();
+
 function draw() {
   //clears the rect after every frame so that
   //ball doesn't leave a trail
@@ -270,115 +276,23 @@ function draw() {
   //x,y coords of the bottom right of a rect
   //clears that whole area every frame ^^
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  const ball = new Ball();
-  ball.drawBall();
-  ball.animate();
+  ship.drawShip(rightPressed,leftPressed);
+  ball.drawBall(ship);
 
-  // debugger
-  // drawBall();
-  // drawShip();
-  // drawInvaders(invaderDY);
-  // drawMissile(missileX,missileY,missileWidth,missileHeight);
-  // // drawMissile(missileX,missileY2,missileWidth,missileHeight);
-  // drawMissile();
-  collisionDetection();
+  // collisionDetection();
   // drawScore();
 
 
   document.getElementById("score").innerHTML = "Score: " + score;
 
 
-  //when missile exits the canvas
-  //reload missile: put position back to canvas.height
-  //change missile speed to zero
-  if (missileY < 0) {
-    missileY = canvas.height;
-    missileDY = 0;
-  }
-
-  // if(missileY2 < 0) {
-  //   missileY2 = canvas.height;
-  //   missileDY2 = 0;
+  // if (gameOver() === true) {
+  //   document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
+  //   modal.style.display = "block";
   // }
 
-  if (gameOver() === true) {
-    document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
-    modal.style.display = "block";
-  }
-
-  //move ship right
-  if (rightPressed === true && shipX < canvas.width - shipWidth ) {
-    shipX += 7;
-  //move ship left
-  } else if (leftPressed === true && shipX > 0) {
-    shipX-= 7;
-  } else if (upPressed === true) {
-    missileDY = -4;
-
-    // if (missileDY === 0 && missileDY2 === 0) {
-    //   missileDY = -4;
-    // } else if (missileDY === -4 && missileDY2 === 0 ) {
-    //   missileDY2 = -4;
-    // }
-
-    //makes sure the missile starts at the same position as the ship
-    //when it is launched
-    if (missileY === canvas.height) {
-
-      missileX = shipX + shipWidth/2;
-    }
-
-    // if (missileY2 === canvas.height) {
-    //   missileX = shipX + shipWidth/2;
-    // }
-
-  }
-
-
-  //x + ballDX together are the new x pos of the ball
-  //if it goes above canvas height or below zero, change y direction
-
-  //change x direction of ball if it hits the wall
-  // console.log(ballDX);
-  // if(ballX + ballDX > canvas.width-ballRadius || ballX + ballDX < ballRadius) {
-  //   ballDX = -ballDX;
-  // }
-  //
-  // //change y direction if ball hits ceiling
-  //   // console.log(ballDY);
-  // if(ballY + ballDY < ballRadius) {
-  //
-  //     ballDY = -ballDY;
-  //     //if the ball touches the bottom of the canvas the
-  //     //game is over
-  // }else {
-  //   //if ball hits the ship it changes direction
-  //
-  //   if(ballY + ballDY > canvas.height-ballRadius-shipHeight&&ballX > shipX && ballX < shipX + shipWidth) {
-  //     ballDY = -ballDY;
-  //   }else if (ballY + ballDY > canvas.height-ballRadius ) {
-  //   //if ship and ball are on the same y coordinate
-  //   // alert("Game over");
-  //     // document.location.reload();
-  //     document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
-  //     modal.style.display = "block";
-  //   }
-  // }
-  //update ball and missile position each time
-  // ballX+=ballDX;
-  // ballY+=ballDY;
-  missileY += missileDY;
-  invaderDY += 0.05;
-
-
-  // missileY2 += missileDY2;
 }
 
-// The "keyup" event is sent to an element when the user releases a key on the keyboard. It can be attached to any element, but the event is only sent to the element that has the focus.
-
-//"keydown" event is when the user is holding the key on the keyboard
-//one of these events are always listening, depending on whether
-//a key is being pressed
 document.addEventListener("keydown", keyDown);
 document.addEventListener("keyup", keyUp);
 
@@ -431,7 +345,7 @@ begin.addEventListener("click", beginGame);
 
 function beginGame(){
   setInterval(draw,10);
-  setInterval(speedBall,5000);
+  // setInterval(speedBall,5000);
 }
 // setInterval(draw,10);
 
