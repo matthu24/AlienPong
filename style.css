@@ -18,6 +18,8 @@ body::after{
   content: "";
   /*// background: url(image.jpg);*/
   background: url("https://s3-us-west-1.amazonaws.com/fullstackfiles/Space.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   opacity: 0.3;
   top: 0;
   left: 0;

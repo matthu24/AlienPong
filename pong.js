@@ -1,27 +1,28 @@
-
-import {drawBall} from "./ball.js";
-import {ballX,ballY,ballRadius,dx,dy} from "./ball.js";
+// //
+// import {drawBall} from "./ball";
+// import {ballX,ballY,ballRadius,dx,dy} from "./ball";
 
 
 export const canvas = document.getElementById("myCanvas");
+
 //ctx stores the 2D rendering context
 //this is the tool we use to paint on the canvas
 export const ctx = canvas.getContext("2d");
 
 
-
-// //set ball initial position and movement
-// //where the ball starts
-// let ballX = canvas.width/2;
-// let ballY = canvas.height-100;
-// //define ballRadius
-// let ballRadius = 10;
-// //sets initial direction of ball movement
-// //also affects the velocity of the ball
-// let dx = 2;
-// //positive dx is to the right
-// let dy=-2;
-// //positive dy is down
+//
+// set ball initial position and movement
+// where the ball starts
+let ballX = canvas.width/2;
+let ballY = canvas.height-100;
+//define ballRadius
+let ballRadius = 10;
+//sets initial direction of ball movement
+//also affects the velocity of the ball
+let dx = 2;
+//positive dx is to the right
+let dy=-2;
+//positive dy is down
 
 
 
@@ -155,7 +156,22 @@ function drawInvaders(offsetDown) {
         // //start angle and end angle
         // //direction of draw: false is clockwise
         ctx.arc(invaderX, invaderY, invaderRadius, 0, Math.PI*2, false);
-        ctx.fillStyle = "#0095DD";
+        // ctx.moveTo(75, 50);
+        ctx.moveTo(invaderX-invaderRadius,invaderY);
+// ctx.lineTo(85, 90);
+        ctx.lineTo(invaderX-invaderRadius/2,invaderY+20);
+//   ctx.lineTo(100, 62);
+
+        ctx.lineTo(invaderX,invaderY + 4);
+//         ctx.lineTo(115, 90);
+        ctx.lineTo(invaderX + invaderRadius/2,invaderY+20);
+        ctx.lineTo(invaderX + invaderRadius, invaderY);
+        ctx.lineTo(invaderX,invaderY-invaderRadius);
+// // ctx.lineTo(100, 75);
+// ctx.lineTo(125,50);
+// ctx.lineTo(100, 25);
+        // ctx.fillStyle = "#0095DD";
+        ctx.fillStyle = "#FF0000";
         ctx.fill();
         ctx.closePath();
       }
@@ -180,7 +196,7 @@ function drawShip() {
   ctx.fillStyle = "#0095DD";
   ctx.fill();
   ctx.closePath();
-};
+}
 
 // module.exports = DrawShip;
 
@@ -198,13 +214,13 @@ function drawMissile(w,x,y,z){
 
 
 // //the bigger this number, the slower the ball updates or moves
-// function drawBall() {
-//   ctx.beginPath();
-//   ctx.arc(ballX, ballY, ballRadius, 0, Math.PI*2);
-//   ctx.fillStyle = "#FFD700";
-//   ctx.fill();
-//   ctx.closePath();
-// }
+function drawBall() {
+  ctx.beginPath();
+  ctx.arc(ballX, ballY, ballRadius, 0, Math.PI*2);
+  ctx.fillStyle = "#C0C0C0";
+  ctx.fill();
+  ctx.closePath();
+}
 
 
 

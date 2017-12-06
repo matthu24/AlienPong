@@ -72,13 +72,14 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ball_js__ = __webpack_require__(1);
-
-
+// //
+// import {drawBall} from "./ball";
+// import {ballX,ballY,ballRadius,dx,dy} from "./ball";
 
 
 const canvas = document.getElementById("myCanvas");
 /* harmony export (immutable) */ __webpack_exports__["canvas"] = canvas;
+
 
 //ctx stores the 2D rendering context
 //this is the tool we use to paint on the canvas
@@ -86,18 +87,19 @@ const ctx = canvas.getContext("2d");
 /* harmony export (immutable) */ __webpack_exports__["ctx"] = ctx;
 
 
-// //set ball initial position and movement
-// //where the ball starts
-// let ballX = canvas.width/2;
-// let ballY = canvas.height-100;
-// //define ballRadius
-// let ballRadius = 10;
-// //sets initial direction of ball movement
-// //also affects the velocity of the ball
-// let dx = 2;
-// //positive dx is to the right
-// let dy=-2;
-// //positive dy is down
+//
+// set ball initial position and movement
+// where the ball starts
+let ballX = canvas.width / 2;
+let ballY = canvas.height - 100;
+//define ballRadius
+let ballRadius = 10;
+//sets initial direction of ball movement
+//also affects the velocity of the ball
+let dx = 2;
+//positive dx is to the right
+let dy = -2;
+//positive dy is down
 
 
 //height width and starting x position
@@ -223,7 +225,22 @@ function drawInvaders(offsetDown) {
         // //start angle and end angle
         // //direction of draw: false is clockwise
         ctx.arc(invaderX, invaderY, invaderRadius, 0, Math.PI * 2, false);
-        ctx.fillStyle = "#0095DD";
+        // ctx.moveTo(75, 50);
+        ctx.moveTo(invaderX - invaderRadius, invaderY);
+        // ctx.lineTo(85, 90);
+        ctx.lineTo(invaderX - invaderRadius / 2, invaderY + 20);
+        //   ctx.lineTo(100, 62);
+
+        ctx.lineTo(invaderX, invaderY + 4);
+        //         ctx.lineTo(115, 90);
+        ctx.lineTo(invaderX + invaderRadius / 2, invaderY + 20);
+        ctx.lineTo(invaderX + invaderRadius, invaderY);
+        ctx.lineTo(invaderX, invaderY - invaderRadius);
+        // // ctx.lineTo(100, 75);
+        // ctx.lineTo(125,50);
+        // ctx.lineTo(100, 25);
+        // ctx.fillStyle = "#0095DD";
+        ctx.fillStyle = "#FF0000";
         ctx.fill();
         ctx.closePath();
       }
@@ -243,7 +260,7 @@ function drawShip() {
   ctx.fillStyle = "#0095DD";
   ctx.fill();
   ctx.closePath();
-};
+}
 
 // module.exports = DrawShip;
 
@@ -261,14 +278,13 @@ function drawMissile(w, x, y, z) {
 
 
 // //the bigger this number, the slower the ball updates or moves
-// function drawBall() {
-//   ctx.beginPath();
-//   ctx.arc(ballX, ballY, ballRadius, 0, Math.PI*2);
-//   ctx.fillStyle = "#FFD700";
-//   ctx.fill();
-//   ctx.closePath();
-// }
-
+function drawBall() {
+  ctx.beginPath();
+  ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+  ctx.fillStyle = "#C0C0C0";
+  ctx.fill();
+  ctx.closePath();
+}
 
 //loop through all invaders and compare position with
 //ball's coordinates as each frame is drawn
@@ -302,7 +318,7 @@ function draw() {
   //x,y coords of the bottom right of a rect
   //clears that whole area every frame ^^
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__ball_js__["a" /* drawBall */])();
+  drawBall();
   drawShip();
   drawInvaders(invaderDY);
   drawMissile(missileX, missileY, missileWidth, missileHeight);
@@ -363,20 +379,20 @@ function draw() {
   //if it goes above canvas height or below zero, change y direction
 
   //change x direction of ball if it hits the wall
-  if (__WEBPACK_IMPORTED_MODULE_0__ball_js__["b" /* ballX */] + __WEBPACK_IMPORTED_MODULE_0__ball_js__["c" /* dx */] > canvas.width - __WEBPACK_IMPORTED_MODULE_0__ball_js__["d" /* ballRadius */] || __WEBPACK_IMPORTED_MODULE_0__ball_js__["b" /* ballX */] + __WEBPACK_IMPORTED_MODULE_0__ball_js__["c" /* dx */] < __WEBPACK_IMPORTED_MODULE_0__ball_js__["d" /* ballRadius */]) {
-    dx = -__WEBPACK_IMPORTED_MODULE_0__ball_js__["c" /* dx */];
+  if (ballX + dx > canvas.width - ballRadius || ballX + dx < ballRadius) {
+    dx = -dx;
   }
 
   //change y direction if ball hits ceiling
-  if (__WEBPACK_IMPORTED_MODULE_0__ball_js__["e" /* ballY */] + __WEBPACK_IMPORTED_MODULE_0__ball_js__["f" /* dy */] < __WEBPACK_IMPORTED_MODULE_0__ball_js__["d" /* ballRadius */]) {
-    dy = -__WEBPACK_IMPORTED_MODULE_0__ball_js__["f" /* dy */];
+  if (ballY + dy < ballRadius) {
+    dy = -dy;
     //if the ball touches the bottom of the canvas the
     //game is over
   } else {
     //if ball hits the ship it changes direction
-    if (__WEBPACK_IMPORTED_MODULE_0__ball_js__["e" /* ballY */] + dy > canvas.height - __WEBPACK_IMPORTED_MODULE_0__ball_js__["d" /* ballRadius */] - shipHeight && __WEBPACK_IMPORTED_MODULE_0__ball_js__["b" /* ballX */] > shipX && __WEBPACK_IMPORTED_MODULE_0__ball_js__["b" /* ballX */] < shipX + shipWidth) {
+    if (ballY + dy > canvas.height - ballRadius - shipHeight && ballX > shipX && ballX < shipX + shipWidth) {
       dy = -dy;
-    } else if (__WEBPACK_IMPORTED_MODULE_0__ball_js__["e" /* ballY */] + dy > canvas.height - __WEBPACK_IMPORTED_MODULE_0__ball_js__["d" /* ballRadius */]) {
+    } else if (ballY + dy > canvas.height - ballRadius) {
       //if ship and ball are on the same y coordinate
       // alert("Game over");
       // document.location.reload();
@@ -430,13 +446,13 @@ function keyUp(e) {
 }
 
 function speedBall() {
-  if (__WEBPACK_IMPORTED_MODULE_0__ball_js__["c" /* dx */] > 0) {
+  if (dx > 0) {
     dx += 0.03;
   } else {
     dx -= 0.03;
   }
 
-  if (__WEBPACK_IMPORTED_MODULE_0__ball_js__["f" /* dy */] > 0) {
+  if (dy > 0) {
     dy += 0.03;
   } else {
     dy -= 0.03;
@@ -510,47 +526,6 @@ window.onclick = function (event) {
 // ctx.strokeStyle = "rgba(0, 0, 255, 0.5)";
 // ctx.stroke();
 // ctx.closePath();
-
-/***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pong_js__ = __webpack_require__(0);
-
-
-//set ball initial position and movement
-//where the ball starts
-const ballX = __WEBPACK_IMPORTED_MODULE_0__pong_js__["canvas"].width / 2;
-/* harmony export (immutable) */ __webpack_exports__["b"] = ballX;
-
-const ballY = __WEBPACK_IMPORTED_MODULE_0__pong_js__["canvas"].height - 100;
-/* harmony export (immutable) */ __webpack_exports__["e"] = ballY;
-
-
-//define ballRadius
-const ballRadius = 10;
-/* harmony export (immutable) */ __webpack_exports__["d"] = ballRadius;
-
-const dx = 2;
-/* harmony export (immutable) */ __webpack_exports__["c"] = dx;
-
-//positive dx is to the right
-const dy = -2;
-/* harmony export (immutable) */ __webpack_exports__["f"] = dy;
-
-//positive dy is down
-
-
-const drawBall = function drawBall() {
-  __WEBPACK_IMPORTED_MODULE_0__pong_js__["ctx"].beginPath();
-  __WEBPACK_IMPORTED_MODULE_0__pong_js__["ctx"].arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
-  __WEBPACK_IMPORTED_MODULE_0__pong_js__["ctx"].fillStyle = "#FFD700";
-  __WEBPACK_IMPORTED_MODULE_0__pong_js__["ctx"].fill();
-  __WEBPACK_IMPORTED_MODULE_0__pong_js__["ctx"].closePath();
-};
-/* harmony export (immutable) */ __webpack_exports__["a"] = drawBall;
-
 
 /***/ })
 /******/ ]);

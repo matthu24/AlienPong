@@ -1,7 +1,15 @@
-import {ctx, canvas} from './pong.js';
+import {ctx, canvas} from './pong';
 
 //set ball initial position and movement
 //where the ball starts
+
+// export const canvas = document.getElementById("myCanvas");
+//
+// //ctx stores the 2D rendering context
+// //this is the tool we use to paint on the canvas
+// export const ctx = canvas.getContext("2d");
+
+
 export const ballX = canvas.width/2;
 export const ballY = canvas.height-100;
 
