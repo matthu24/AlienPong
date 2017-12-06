@@ -3,35 +3,32 @@
 <head>
     <meta charset="utf-8" />
     <title>Gamedev Canvas Workshop</title>
-    <style>
-    	* { padding: 0; margin: 40px; }
-    	#myCanvas { background: black;
-        /*margin-top: 4000px;*/
-        display: flex;
-        justify-content: center;
-        margin: 0 auto; }
-      /*.square{
-        background-color: red;
-        height: 30px;
-        width: 30px;
-        margin: 0 auto;
-      }*/
-    </style>
       <link rel="stylesheet" href="style.css">
       <link href="https://fonts.googleapis.com/css?family=Spectral+SC" rel="stylesheet">
 
 </head>
 <body>
 
-<!-- draws the canvas and defines size -->
 <h1>Alien Pong</h1>
-
+<span id="score">Score: 0</span>
 <canvas id="myCanvas" width="480" height="340"></canvas>
 <div>Left and right arrows to move ship.  Up arrow to fire.</div>
 <button id="begin">Begin Game</button>
 <!-- <div class = "square"></div> -->
+<!-- Trigger/Open The Modal -->
+<!-- <button id="myBtn">Open Modal</button> -->
 
-<script src= "pong.js">
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modal-score"></p>
+  </div>
+
+</div>
+<script src= "./bundle.js">
 // <style src = "style.css">
 </script>
 

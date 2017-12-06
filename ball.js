@@ -2,11 +2,15 @@ import {ctx, canvas} from './pong.js';
 
 //set ball initial position and movement
 //where the ball starts
-var ballX = canvas.width/2;
-var ballY = canvas.height-100;
+export const ballX = canvas.width/2;
+export const ballY = canvas.height-100;
 
 //define ballRadius
-var ballRadius = 10;
+export const ballRadius = 10;
+export const dx = 2;
+//positive dx is to the right
+export const dy=-2;
+//positive dy is down
 
 
 export const drawBall = function drawBall() {

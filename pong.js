@@ -1,25 +1,29 @@
 
-// import {drawBall} from "./ball.js";
+import {drawBall} from "./ball.js";
+import {ballX,ballY,ballRadius,dx,dy} from "./ball.js";
 
-let canvas = document.getElementById("myCanvas");
+
+export const canvas = document.getElementById("myCanvas");
 //ctx stores the 2D rendering context
 //this is the tool we use to paint on the canvas
-const ctx = canvas.getContext("2d");
+export const ctx = canvas.getContext("2d");
 
 
 
-//set ball initial position and movement
-//where the ball starts
-let ballX = canvas.width/2;
-let ballY = canvas.height-100;
-//define ballRadius
-let ballRadius = 10;
-//sets initial direction of ball movement
-//also affects the velocity of the ball
-let dx = 2;
-//positive dx is to the right
-let dy=-2;
-//positive dy is down
+// //set ball initial position and movement
+// //where the ball starts
+// let ballX = canvas.width/2;
+// let ballY = canvas.height-100;
+// //define ballRadius
+// let ballRadius = 10;
+// //sets initial direction of ball movement
+// //also affects the velocity of the ball
+// let dx = 2;
+// //positive dx is to the right
+// let dy=-2;
+// //positive dy is down
+
+
 
 //height width and starting x position
 let shipHeight = 10;
@@ -80,15 +84,18 @@ for(let c=0; c<invaderColumnCount; c++) {
 //  [ { x: 0, y: 0 }, { x: 0, y: 0 }, { x: 0, y: 0 } ],
 //  [ { x: 0, y: 0 }, { x: 0, y: 0 }, { x: 0, y: 0 } ] ]
 
-function drawScore() {
-  ctx.font = "16px Arial";
-  ctx.fillStyle = "#0095DD";
-  ctx.fillText("Score: "+score, 8,20);
-}
+// function drawScore() {
+//   ctx.font = "16px Arial";
+//   ctx.fillStyle = "#0095DD";
+//   ctx.fillText("Score: "+score, 10,23);
+// }
 
 //return boolean
+//gameOver does not account for the ball crossing the line
+// it only accounts for invader activity
 function gameOver(){
 
+  //if any invaders have crossed the line, end game
   for (let i = 0; i < invaders.length; i++) {
     for (let j = 0; j < invaders[0].length; j++) {
       if (invaders[i][j].y > canvas.height) {
@@ -97,6 +104,8 @@ function gameOver(){
     }
   }
 
+  //if any invaders exist and have not crossed line ^^,
+  //do not end game
   for (let i = 0; i < invaders.length; i++) {
     for (let j = 0; j < invaders[0].length; j++) {
       //if there are any invaders left, the game is not over
@@ -106,6 +115,7 @@ function gameOver(){
       }
     }
   }
+  //end game if both those are not true ^^
   return true;
 }
 
@@ -170,7 +180,9 @@ function drawShip() {
   ctx.fillStyle = "#0095DD";
   ctx.fill();
   ctx.closePath();
-}
+};
+
+// module.exports = DrawShip;
 
 function drawMissile(w,x,y,z){
   ctx.beginPath();
@@ -186,13 +198,13 @@ function drawMissile(w,x,y,z){
 
 
 // //the bigger this number, the slower the ball updates or moves
-function drawBall() {
-  ctx.beginPath();
-  ctx.arc(ballX, ballY, ballRadius, 0, Math.PI*2);
-  ctx.fillStyle = "#FFD700";
-  ctx.fill();
-  ctx.closePath();
-}
+// function drawBall() {
+//   ctx.beginPath();
+//   ctx.arc(ballX, ballY, ballRadius, 0, Math.PI*2);
+//   ctx.fillStyle = "#FFD700";
+//   ctx.fill();
+//   ctx.closePath();
+// }
 
 
 
@@ -234,14 +246,18 @@ function draw() {
   //x,y coords of the bottom right of a rect
   //clears that whole area every frame ^^
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  // drawBall();
+  drawBall();
   drawShip();
   drawInvaders(invaderDY);
   drawMissile(missileX,missileY,missileWidth,missileHeight);
   // drawMissile(missileX,missileY2,missileWidth,missileHeight);
   // drawMissile();
   collisionDetection();
-  drawScore();
+  // drawScore();
+
+
+  document.getElementById("score").innerHTML = "Score: " + score;
+
 
   //when missile exits the canvas
   //reload missile: put position back to canvas.height
@@ -257,8 +273,8 @@ function draw() {
   // }
 
   if (gameOver() === true) {
-    alert("You win!" );
-    document.location.reload();
+    document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
+    modal.style.display = "block";
   }
 
   //move ship right
@@ -310,9 +326,12 @@ function draw() {
     }else if (ballY + dy > canvas.height-ballRadius ) {
     //if ship and ball are on the same y coordinate
     // alert("Game over");
-      document.location.reload();
+      // document.location.reload();
+      document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
+      modal.style.display = "block";
     }
   }
+  //update ball and missile position each time
   ballX+=dx;
   ballY+=dy;
   missileY += missileDY;
@@ -382,6 +401,39 @@ function beginGame(){
   setInterval(speedBall,5000);
 }
 // setInterval(draw,10);
+
+
+
+
+
+
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+// var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+// btn.onclick = function() {
+//
+//     modal.style.display = "block";
+// }
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+    document.location.reload();
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
 
 
 
