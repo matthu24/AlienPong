@@ -209,7 +209,7 @@ function draw() {
   document.getElementById("score").innerHTML = "Score: " + score;
   if (gameOver(invader) === true) {
     document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
-    modal.style.display = "block";
+    beginModal.style.display = "block";
   }
 }
 
@@ -251,25 +251,39 @@ function beginGame() {
   setInterval(speedBall, 5000);
 }
 
-// Get the modal
-var modal = document.getElementById('myModal');
+// Get the beginModal
+const beginModal = document.getElementById('myModal');
+// Get the button that opens the beginModal
+// const btn = document.getElementById("myBtn");
+// Get the <span> element that closes the beginModal
+const span = document.getElementsByClassName("endgameClose")[0];
 
-// Get the button that opens the modal
-// var btn = document.getElementById("myBtn");
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on <span> (x), close the modal
+// When the user clicks on <span> (x), close the beginModal
 span.onclick = function () {
-  modal.style.display = "none";
+  beginModal.style.display = "none";
   document.location.reload();
 };
 
-// When the user clicks anywhere outside of the modal, close it
+// When the user clicks anywhere outside of the beginModal, close it
 window.onclick = function (event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
+  if (event.target == beginModal) {
+    beginModal.style.display = "none";
   }
+};
+
+const instructionsModal = document.getElementById('instructionsModal');
+const instructionsSpan = document.getElementsByClassName("instructionsClose")[0];
+instructionsSpan.onclick = function () {
+  instructionsModal.style.display = "none";
+  document.location.reload();
+};
+
+const instructionContent = "Hello";
+
+const instructionsBtn = document.getElementById("instruction");
+instructionsBtn.onclick = function () {
+  document.getElementById("modal-instruction").innerHTML = instructionContent;
+  instructionsModal.style.display = "block";
 };
 
 /***/ }),

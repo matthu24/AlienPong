@@ -1,10 +1,12 @@
 body{
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   /*color:white;*/
   /*justify-content: center;*/
   align-items: center;
   font-family: 'Spectral SC', serif;
+  margin: 0 auto;
 }
 h1{
   font-weight: bold;
@@ -12,9 +14,15 @@ h1{
   margin-bottom: -30px;
 }
 
+.instructionsClose:hover{
+  cursor: pointer;
+}
+
+.endgameClose:hover{
+  cursor:pointer;
+}
+
 body::after{
-
-
   content: "";
   /*// background: url(image.jpg);*/
   background: url("https://s3-us-west-1.amazonaws.com/fullstackfiles/Space.png");

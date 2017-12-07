@@ -14,20 +14,27 @@
 <canvas id="myCanvas" width="480" height="340"></canvas>
 <div>Left and right arrows to move ship.  Up arrow to fire.</div>
 <button id="begin">Begin Game</button>
+<button id="instruction">Game Instructions</button>
 <!-- <div class = "square"></div> -->
 <!-- Trigger/Open The Modal -->
 <!-- <button id="myBtn">Open Modal</button> -->
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
-
   <!-- Modal content -->
   <div class="modal-content">
-    <span class="close">&times;</span>
+    <span class="endgameClose">&times;</span>
     <p id="modal-score"></p>
   </div>
-
 </div>
+
+<div id="instructionsModal" class="modal">
+  <div class="modal-content">
+    <span class="instructionsClose">&times;</span>
+    <p id="modal-instruction"></p>
+  </div>
+</div>
+
 <script src= "./bundle.js">
 // <style src = "style.css">
 </script>
