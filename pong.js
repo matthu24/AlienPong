@@ -140,7 +140,7 @@ instructionsSpan.onclick = function() {
     document.location.reload();
 };
 
-const instructionContent = "Hello";
+const instructionContent = "Left and right arrow to move the ship.  Up arrow fires at alien targets.  Score points by destroying aliens.  Don't allow the bouncing projectile or any of the aliens to reach the bottom.  The ball speeds up as the game progresses!";
 
 const instructionsBtn = document.getElementById("instruction");
 instructionsBtn.onclick = function(){
