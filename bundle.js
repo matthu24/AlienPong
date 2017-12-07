@@ -100,13 +100,27 @@ Ball.prototype.drawBall = function drawBall(ship) {
       this.ballDY = -this.ballDY;
     } else if (this.ballY + this.ballDY > canvas.height + this.ballRadius) {
       //if ship and this.ball are on the same y coordinate
-      // alert("Game over");
-      // document.location.reload();
       return false;
     }
   }
   this.ballX += this.ballDX;
   this.ballY += this.ballDY;
+};
+
+Ball.prototype.speedBall = function speedBall() {
+
+  if (this.ballDX > 0) {
+
+    this.ballDX += 0.03;
+  } else {
+    this.ballDX -= 0.03;
+  }
+
+  if (this.ballDY > 0) {
+    this.ballDY += 0.03;
+  } else {
+    this.ballDY -= 0.03;
+  }
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (Ball);
@@ -141,7 +155,6 @@ let rightPressed = false;
 let leftPressed = false;
 let upPressed = false;
 let downPressed = false;
-
 let score = 0;
 let ballLive = true;
 
@@ -171,15 +184,13 @@ function gameOver(invader) {
   return true;
 }
 
-//random number between -1 and 1:
-// let num = (Math.random());
-// num *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
-
-
 const ball = new __WEBPACK_IMPORTED_MODULE_0__ball__["a" /* default */]();
 const ship = new __WEBPACK_IMPORTED_MODULE_1__ship__["a" /* default */]();
 const missile = new __WEBPACK_IMPORTED_MODULE_2__missile__["a" /* default */](ship);
 const invader = new __WEBPACK_IMPORTED_MODULE_3__invader__["a" /* default */]();
+function speedBall() {
+  ball.speedBall();
+}
 
 function draw() {
 
@@ -214,7 +225,6 @@ function keyDown(e) {
     leftPressed = true;
     //arrow up
   } else if (e.keyCode == 38) {
-
     upPressed = true;
   } else if (e.keyCode == 40) {
     downPressed = true;
@@ -238,26 +248,13 @@ function keyUp(e) {
 //gameOver does not account for the ball crossing the line
 // it only accounts for invader activity
 
-function speedBall() {
-  if (ballDX > 0) {
-    ballDX += 0.03;
-  } else {
-    ballDX -= 0.03;
-  }
-
-  if (ballDY > 0) {
-    ballDY += 0.03;
-  } else {
-    ballDY -= 0.03;
-  }
-}
 
 const begin = document.getElementById("begin");
 begin.addEventListener("click", beginGame);
 
 function beginGame() {
   setInterval(draw, 10);
-  // setInterval(speedBall,5000);
+  setInterval(speedBall, 5000);
 }
 // setInterval(draw,10);
 
@@ -333,7 +330,6 @@ Ship.prototype.drawShip = function drawShip(rightPressed, leftPressed) {
 
 const canvas = document.getElementById("myCanvas");
 /* unused harmony export canvas */
-
 
 const ctx = canvas.getContext("2d");
 /* unused harmony export ctx */

@@ -10,14 +10,11 @@ export const canvas = document.getElementById("myCanvas");
 //this is the tool we use to paint on the canvas
 export const ctx = canvas.getContext("2d");
 
-
 //user interactivity
 let rightPressed = false;
 let leftPressed = false;
 let upPressed = false;
 let downPressed = false;
-
-
 let score = 0;
 let ballLive = true;
 
@@ -48,17 +45,13 @@ function gameOver(invader){
 }
 
 
-//random number between -1 and 1:
-// let num = (Math.random());
-// num *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
-
-
-
-
 const ball = new Ball();
 const ship = new Ship();
 const missile = new Missile(ship);
 const invader = new Invader();
+function speedBall(){
+  ball.speedBall();
+}
 
 function draw() {
 
@@ -94,7 +87,6 @@ function keyDown(e) {
       leftPressed = true;
       //arrow up
   }else if (e.keyCode == 38) {
-
     upPressed = true;
   }else if (e.keyCode==40){
     downPressed = true;
@@ -119,26 +111,14 @@ function keyUp(e) {
 //gameOver does not account for the ball crossing the line
 // it only accounts for invader activity
 
-function speedBall(){
-  if (ballDX > 0) {
-    ballDX +=0.03;
-  }else {
-    ballDX -=0.03;
-  }
 
-  if (ballDY > 0) {
-    ballDY+=0.03;
-  }else {
-    ballDY-=0.03;
-  }
-}
 
 const begin = document.getElementById("begin");
 begin.addEventListener("click", beginGame);
 
 function beginGame(){
   setInterval(draw,10);
-  // setInterval(speedBall,5000);
+  setInterval(speedBall,5000);
 }
 // setInterval(draw,10);
 

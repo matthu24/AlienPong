@@ -28,14 +28,28 @@ Ball.prototype.drawBall = function drawBall(ship) {
       this.ballDY = -this.ballDY;
     }else if (this.ballY + this.ballDY > canvas.height+this.ballRadius ) {
     //if ship and this.ball are on the same y coordinate
-    // alert("Game over");
-      // document.location.reload();
       return false;
     }
   }
   this.ballX+=this.ballDX;
   this.ballY+=this.ballDY;
 
+};
+
+Ball.prototype.speedBall = function speedBall(){
+
+  if (this.ballDX > 0) {
+
+    this.ballDX +=0.03;
+  }else {
+    this.ballDX -=0.03;
+  }
+
+  if (this.ballDY > 0) {
+    this.ballDY+=0.03;
+  }else {
+    this.ballDY-=0.03;
+  }
 };
 
 
