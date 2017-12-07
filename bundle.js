@@ -110,7 +110,6 @@ Ball.prototype.drawBall = function drawBall(ship) {
 Ball.prototype.speedBall = function speedBall() {
 
   if (this.ballDX > 0) {
-
     this.ballDX += 0.03;
   } else {
     this.ballDX -= 0.03;
@@ -143,12 +142,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 const canvas = document.getElementById("myCanvas");
 /* harmony export (immutable) */ __webpack_exports__["canvas"] = canvas;
 
-
-//ctx stores the 2D rendering context
-//this is the tool we use to paint on the canvas
 const ctx = canvas.getContext("2d");
 /* harmony export (immutable) */ __webpack_exports__["ctx"] = ctx;
 
+
+const ball = new __WEBPACK_IMPORTED_MODULE_0__ball__["a" /* default */]();
+const ship = new __WEBPACK_IMPORTED_MODULE_1__ship__["a" /* default */]();
+const missile = new __WEBPACK_IMPORTED_MODULE_2__missile__["a" /* default */](ship);
+const invader = new __WEBPACK_IMPORTED_MODULE_3__invader__["a" /* default */]();
 
 //user interactivity
 let rightPressed = false;
@@ -184,10 +185,8 @@ function gameOver(invader) {
   return true;
 }
 
-const ball = new __WEBPACK_IMPORTED_MODULE_0__ball__["a" /* default */]();
-const ship = new __WEBPACK_IMPORTED_MODULE_1__ship__["a" /* default */]();
-const missile = new __WEBPACK_IMPORTED_MODULE_2__missile__["a" /* default */](ship);
-const invader = new __WEBPACK_IMPORTED_MODULE_3__invader__["a" /* default */]();
+//ball is available from the top level scope
+// don't need to pass it in
 function speedBall() {
   ball.speedBall();
 }
@@ -244,11 +243,6 @@ function keyUp(e) {
   }
 }
 
-//return boolean
-//gameOver does not account for the ball crossing the line
-// it only accounts for invader activity
-
-
 const begin = document.getElementById("begin");
 begin.addEventListener("click", beginGame);
 
@@ -256,7 +250,6 @@ function beginGame() {
   setInterval(draw, 10);
   setInterval(speedBall, 5000);
 }
-// setInterval(draw,10);
 
 // Get the modal
 var modal = document.getElementById('myModal');
@@ -284,10 +277,8 @@ window.onclick = function (event) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
 const canvas = document.getElementById("myCanvas");
 /* unused harmony export canvas */
-
 
 const ctx = canvas.getContext("2d");
 /* unused harmony export ctx */
@@ -360,7 +351,6 @@ Missile.prototype.drawMissile = function drawMissile(upPressed, ship) {
       this.missileX = ship.shipX + ship.shipWidth / 2;
     }
   }
-
   this.missileY += this.missileDY;
 };
 
@@ -375,7 +365,6 @@ Missile.prototype.animate = function animate(upPressed, ship) {
       this.missileX = ship.shipX + ship.shipWidth / 2;
     }
   }
-
   this.missileY += this.missileDY;
 };
 
@@ -448,7 +437,6 @@ Invader.prototype.drawInvaders = function drawInvaders() {
       }
     }
   }
-  // this.invaderY+=this.invaderDY;
   this.invaderDY += 0.05;
 };
 
@@ -466,7 +454,7 @@ Invader.prototype.collisionDetection = function collisionDetection(missile) {
           missile.missileY = canvas.height;
           missile.missileDY = 0;
           b.exist = false;
-          //
+          //return true so that pong.js knows there was a collision
           return true;
         }
       }

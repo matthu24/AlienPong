@@ -1,9 +1,5 @@
-
 export const canvas = document.getElementById("myCanvas");
-
-
 export const ctx = canvas.getContext("2d");
-
 
 function Ship(){
   this.shipHeight = 10;
@@ -30,9 +26,6 @@ Ship.prototype.drawShip = function drawShip(rightPressed,leftPressed) {
   } else if (leftPressed === true && this.shipX > 0) {
     this.shipX-= 7;
   }
-
 };
-
-
 
 export default Ship;

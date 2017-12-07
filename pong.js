@@ -3,12 +3,13 @@ import Ship from "./ship";
 import Missile from "./missile";
 import Invader from "./invader";
 
-
 export const canvas = document.getElementById("myCanvas");
-
-//ctx stores the 2D rendering context
-//this is the tool we use to paint on the canvas
 export const ctx = canvas.getContext("2d");
+
+const ball = new Ball();
+const ship = new Ship();
+const missile = new Missile(ship);
+const invader = new Invader();
 
 //user interactivity
 let rightPressed = false;
@@ -44,11 +45,8 @@ function gameOver(invader){
   return true;
 }
 
-
-const ball = new Ball();
-const ship = new Ship();
-const missile = new Missile(ship);
-const invader = new Invader();
+//ball is available from the top level scope
+// don't need to pass it in
 function speedBall(){
   ball.speedBall();
 }
@@ -107,12 +105,6 @@ function keyUp(e) {
   }
 }
 
-//return boolean
-//gameOver does not account for the ball crossing the line
-// it only accounts for invader activity
-
-
-
 const begin = document.getElementById("begin");
 begin.addEventListener("click", beginGame);
 
@@ -120,7 +112,6 @@ function beginGame(){
   setInterval(draw,10);
   setInterval(speedBall,5000);
 }
-// setInterval(draw,10);
 
 // Get the modal
 var modal = document.getElementById('myModal');
@@ -129,7 +120,6 @@ var modal = document.getElementById('myModal');
 // var btn = document.getElementById("myBtn");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
-
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {

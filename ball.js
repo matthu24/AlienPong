@@ -7,7 +7,6 @@ const ctx = canvas.getContext("2d");
   this.ballRadius = 10;
   this.ballDX = 2;
   this.ballDY = -2;
-
 }
 
 Ball.prototype.drawBall = function drawBall(ship) {
@@ -33,13 +32,11 @@ Ball.prototype.drawBall = function drawBall(ship) {
   }
   this.ballX+=this.ballDX;
   this.ballY+=this.ballDY;
-
 };
 
 Ball.prototype.speedBall = function speedBall(){
 
   if (this.ballDX > 0) {
-
     this.ballDX +=0.03;
   }else {
     this.ballDX -=0.03;
@@ -51,7 +48,5 @@ Ball.prototype.speedBall = function speedBall(){
     this.ballDY-=0.03;
   }
 };
-
-
 
 export default Ball;

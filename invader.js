@@ -56,10 +56,8 @@ Invader.prototype.drawInvaders = function drawInvaders(){
       }
     }
   }
-  // this.invaderY+=this.invaderDY;
   this.invaderDY += 0.05;
 };
-
 
 //loop through invaders,
 Invader.prototype.collisionDetection = function collisionDetection(missile) {
@@ -75,7 +73,7 @@ Invader.prototype.collisionDetection = function collisionDetection(missile) {
           missile.missileY = canvas.height;
           missile.missileDY = 0;
           b.exist = false;
-          //
+          //return true so that pong.js knows there was a collision
           return true;
         }
       }

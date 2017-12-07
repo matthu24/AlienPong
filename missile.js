@@ -18,7 +18,6 @@ Missile.prototype.drawMissile = function drawMissile(upPressed,ship){
   ctx.fill();
   ctx.closePath();
 
-
   if (this.missileY < 0) {
     this.missileY = canvas.height;
     this.missileDY = 0;
@@ -29,7 +28,6 @@ Missile.prototype.drawMissile = function drawMissile(upPressed,ship){
       this.missileX = ship.shipX + ship.shipWidth/2;
     }
   }
-
   this.missileY += this.missileDY;
 };
 
@@ -44,7 +42,6 @@ Missile.prototype.animate = function animate(upPressed,ship){
       this.missileX = ship.shipX + ship.shipWidth/2;
     }
   }
-
   this.missileY += this.missileDY;
 };
 
