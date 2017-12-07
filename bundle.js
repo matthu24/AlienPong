@@ -85,7 +85,7 @@ function Ball() {
 Ball.prototype.drawBall = function drawBall(ship) {
   ctx.beginPath();
   ctx.arc(this.ballX, this.ballY, this.ballRadius, 0, Math.PI * 2);
-  ctx.fillStyle = "#FFD700";
+  ctx.fillStyle = "#C0C0C0";
   ctx.fill();
   ctx.closePath();
 
@@ -98,35 +98,11 @@ Ball.prototype.drawBall = function drawBall(ship) {
     //if this.ball hits the ship it changes direction
     if (this.ballY + this.ballDY > canvas.height - this.ballRadius - ship.shipHeight && this.ballX > ship.shipX && this.ballX < ship.shipX + ship.shipWidth) {
       this.ballDY = -this.ballDY;
-    } else if (this.ballY + this.ballDY > canvas.height - this.ballRadius) {
+    } else if (this.ballY + this.ballDY > canvas.height + this.ballRadius) {
       //if ship and this.ball are on the same y coordinate
       // alert("Game over");
       // document.location.reload();
-      // document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
-      // modal.style.display = "block";
-    }
-  }
-  this.ballX += this.ballDX;
-  this.ballY += this.ballDY;
-};
-
-//need to pass in ship class
-Ball.prototype.animate = function animate(ship, score) {
-  if (this.ballX + this.ballDX > canvas.width - this.ballRadius || this.ballX + this.ballDX < this.ballRadius) {
-    this.ballDX = -this.ballDX;
-  }
-  if (this.ballY + this.ballDY < this.ballRadius) {
-    this.ballDY = -this.ballDY;
-  } else {
-    //if this.ball hits the ship it changes direction
-    if (this.ballY + this.ballDY > canvas.height - this.ballRadius - ship.shipHeight && this.ballX > ship.shipX && this.ballX < ship.shipX + ship.shipWidth) {
-      this.ballDY = -this.ballDY;
-    } else if (this.ballY + this.ballDY > canvas.height - this.ballRadius) {
-      //if ship and this.ball are on the same y coordinate
-      // alert("Game over");
-      // document.location.reload();
-      // document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
-      // modal.style.display = "block";
+      return false;
     }
   }
   this.ballX += this.ballDX;
@@ -167,33 +143,26 @@ let upPressed = false;
 let downPressed = false;
 
 let score = 0;
+let ballLive = true;
 
-function drawScore() {
-  ctx.font = "16px Arial";
-  ctx.fillStyle = "#0095DD";
-  ctx.fillText("Score: " + score, 10, 23);
-}
-
-//return boolean
-//gameOver does not account for the ball crossing the line
-// it only accounts for invader activity
-function gameOver() {
-
+function gameOver(invader) {
+  if (ballLive === false) {
+    return true;
+  }
   //if any invaders have crossed the line, end game
-  for (let i = 0; i < invaders.length; i++) {
-    for (let j = 0; j < invaders[0].length; j++) {
-      if (invaders[i][j].y > canvas.height) {
+  for (let i = 0; i < invader.invaders.length; i++) {
+    for (let j = 0; j < invader.invaders[0].length; j++) {
+      if (invader.invaders[i][j].y > canvas.height) {
         return true;
       }
     }
   }
-  //if any invaders exist and have not crossed line ^^,
+  //if any invader.invaders exist and have not crossed line ^^,
   //do not end game
-  for (let i = 0; i < invaders.length; i++) {
-    for (let j = 0; j < invaders[0].length; j++) {
-      //if there are any invaders left, the game is not over
-
-      if (invaders[i][j].exist === true) {
+  for (let i = 0; i < invader.invaders.length; i++) {
+    for (let j = 0; j < invader.invaders[0].length; j++) {
+      //if there are any invader.invaders left, the game is not over
+      if (invader.invaders[i][j].exist === true) {
         return false;
       }
     }
@@ -213,26 +182,25 @@ const missile = new __WEBPACK_IMPORTED_MODULE_2__missile__["a" /* default */](sh
 const invader = new __WEBPACK_IMPORTED_MODULE_3__invader__["a" /* default */]();
 
 function draw() {
-  //clears the rect after every frame so that
-  //ball doesn't leave a trail
-  //parameters:
-  //x,y coords of the top left coner of a rect
-  //x,y coords of the bottom right of a rect
-  //clears that whole area every frame ^^
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ship.drawShip(rightPressed, leftPressed);
-  ball.drawBall(ship);
+  let ballUpdate = ball.drawBall(ship);
+  if (ballUpdate === false) {
+    ballLive = false;
+  }
   missile.drawMissile(upPressed, ship);
   invader.drawInvaders();
+  //collisionDetection returns a boolean of whether or not there was a collision
   let updateScore = invader.collisionDetection(missile, score);
+  //if there was a collision, update score, if not don't
   score = updateScore === true ? score + 1 : score;
-  // collisionDetection();
-  // drawScore();
+
   document.getElementById("score").innerHTML = "Score: " + score;
-  // if (gameOver() === true) {
-  //   document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
-  //   modal.style.display = "block";
-  // }
+  if (gameOver(invader) === true) {
+    document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
+    modal.style.display = "block";
+  }
 }
 
 document.addEventListener("keydown", keyDown);
@@ -266,6 +234,10 @@ function keyUp(e) {
   }
 }
 
+//return boolean
+//gameOver does not account for the ball crossing the line
+// it only accounts for invader activity
+
 function speedBall() {
   if (ballDX > 0) {
     ballDX += 0.03;
@@ -288,7 +260,6 @@ function beginGame() {
   // setInterval(speedBall,5000);
 }
 // setInterval(draw,10);
-
 
 // Get the modal
 var modal = document.getElementById('myModal');
@@ -344,16 +315,6 @@ Ship.prototype.drawShip = function drawShip(rightPressed, leftPressed) {
   ctx.fillStyle = "#0095DD";
   ctx.fill();
   ctx.closePath();
-  if (rightPressed === true && this.shipX < canvas.width - this.shipWidth) {
-    this.shipX += 7;
-    //move ship left
-  } else if (leftPressed === true && this.shipX > 0) {
-    this.shipX -= 7;
-  }
-};
-
-//need to pass in rightPressed and leftPressed variables
-Ship.prototype.animate = function animate(rightPressed, leftPressed) {
   if (rightPressed === true && this.shipX < canvas.width - this.shipWidth) {
     this.shipX += 7;
     //move ship left
@@ -509,9 +470,7 @@ Invader.prototype.collisionDetection = function collisionDetection(missile) {
           missile.missileY = canvas.height;
           missile.missileDY = 0;
           b.exist = false;
-          //score is updating in invader.js but not sending it back to pong.js
-          // score++;
-
+          //
           return true;
         }
       }

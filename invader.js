@@ -75,9 +75,7 @@ Invader.prototype.collisionDetection = function collisionDetection(missile) {
           missile.missileY = canvas.height;
           missile.missileDY = 0;
           b.exist = false;
-          //score is updating in invader.js but not sending it back to pong.js
-          // score++;
-
+          //
           return true;
         }
       }

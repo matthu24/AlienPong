@@ -19,33 +19,26 @@ let downPressed = false;
 
 
 let score = 0;
+let ballLive = true;
 
-function drawScore() {
-  ctx.font = "16px Arial";
-  ctx.fillStyle = "#0095DD";
-  ctx.fillText("Score: "+score, 10,23);
-}
-
-//return boolean
-//gameOver does not account for the ball crossing the line
-// it only accounts for invader activity
-function gameOver(){
-
+function gameOver(invader){
+  if (ballLive === false) {
+    return true;
+  }
   //if any invaders have crossed the line, end game
-  for (let i = 0; i < invaders.length; i++) {
-    for (let j = 0; j < invaders[0].length; j++) {
-      if (invaders[i][j].y > canvas.height) {
+  for (let i = 0; i < invader.invaders.length; i++) {
+    for (let j = 0; j < invader.invaders[0].length; j++) {
+      if (invader.invaders[i][j].y > canvas.height) {
         return true;
       }
     }
   }
-  //if any invaders exist and have not crossed line ^^,
+  //if any invader.invaders exist and have not crossed line ^^,
   //do not end game
-  for (let i = 0; i < invaders.length; i++) {
-    for (let j = 0; j < invaders[0].length; j++) {
-      //if there are any invaders left, the game is not over
-
-      if (invaders[i][j].exist === true) {
+  for (let i = 0; i < invader.invaders.length; i++) {
+    for (let j = 0; j < invader.invaders[0].length; j++) {
+      //if there are any invader.invaders left, the game is not over
+      if (invader.invaders[i][j].exist === true) {
         return false;
       }
     }
@@ -53,6 +46,7 @@ function gameOver(){
   //end game if both those are not true ^^
   return true;
 }
+
 
 //random number between -1 and 1:
 // let num = (Math.random());
@@ -67,28 +61,26 @@ const missile = new Missile(ship);
 const invader = new Invader();
 
 function draw() {
-  //clears the rect after every frame so that
-  //ball doesn't leave a trail
-  //parameters:
-  //x,y coords of the top left coner of a rect
-  //x,y coords of the bottom right of a rect
-  //clears that whole area every frame ^^
+
   ctx.clearRect(0,0,canvas.width,canvas.height);
   ship.drawShip(rightPressed,leftPressed);
-  ball.drawBall(ship);
+  let ballUpdate = ball.drawBall(ship);
+  if (ballUpdate === false) {
+    ballLive = false;
+  }
   missile.drawMissile(upPressed,ship);
   invader.drawInvaders();
+  //collisionDetection returns a boolean of whether or not there was a collision
   let updateScore = invader.collisionDetection(missile,score);
+  //if there was a collision, update score, if not don't
   score = updateScore === true ? score+1 : score;
-  // collisionDetection();
-  // drawScore();
-  document.getElementById("score").innerHTML = "Score: " + score;
-  // if (gameOver() === true) {
-  //   document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
-  //   modal.style.display = "block";
-  // }
-}
 
+  document.getElementById("score").innerHTML = "Score: " + score;
+  if (gameOver(invader) === true) {
+    document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
+    modal.style.display = "block";
+  }
+}
 
 document.addEventListener("keydown", keyDown);
 document.addEventListener("keyup", keyUp);
@@ -123,6 +115,10 @@ function keyUp(e) {
   }
 }
 
+//return boolean
+//gameOver does not account for the ball crossing the line
+// it only accounts for invader activity
+
 function speedBall(){
   if (ballDX > 0) {
     ballDX +=0.03;
@@ -145,7 +141,6 @@ function beginGame(){
   // setInterval(speedBall,5000);
 }
 // setInterval(draw,10);
-
 
 // Get the modal
 var modal = document.getElementById('myModal');

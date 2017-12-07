@@ -33,16 +33,6 @@ Ship.prototype.drawShip = function drawShip(rightPressed,leftPressed) {
 
 };
 
-//need to pass in rightPressed and leftPressed variables
-Ship.prototype.animate = function animate(rightPressed,leftPressed) {
-  if (rightPressed === true && this.shipX < canvas.width - this.shipWidth ) {
-    this.shipX += 7;
-  //move ship left
-  } else if (leftPressed === true && this.shipX > 0) {
-    this.shipX-= 7;
-  }
 
-
-};
 
 export default Ship;
