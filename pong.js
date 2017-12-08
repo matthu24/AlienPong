@@ -3,8 +3,12 @@ import Ship from "./ship";
 import Missile from "./missile";
 import Invader from "./invader";
 
+
 export const canvas = document.getElementById("myCanvas");
 export const ctx = canvas.getContext("2d");
+
+
+
 
 const ball = new Ball();
 const ship = new Ship();

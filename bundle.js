@@ -389,12 +389,17 @@ Missile.prototype.animate = function animate(upPressed, ship) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__explode__ = __webpack_require__(5);
 const canvas = document.getElementById("myCanvas");
 /* unused harmony export canvas */
 
 const ctx = canvas.getContext("2d");
 /* unused harmony export ctx */
 
+
+
+
+const explode = new __WEBPACK_IMPORTED_MODULE_0__explode__["a" /* default */]();
 
 function Invader() {
   //this.invaders to bomb
@@ -468,6 +473,7 @@ Invader.prototype.collisionDetection = function collisionDetection(missile) {
           missile.missileY = canvas.height;
           missile.missileDY = 0;
           b.exist = false;
+          explode.explosion(b.x, b.y);
           //return true so that pong.js knows there was a collision
           return true;
         }
@@ -477,6 +483,143 @@ Invader.prototype.collisionDetection = function collisionDetection(missile) {
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (Invader);
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+window.human = false;
+
+var canvasEl = document.getElementById("myCanvas");
+var ctx = canvasEl.getContext('2d');
+
+function Explode() {
+  this.numberOfParticules = 30;
+  this.colors = ['#FF1461', '#18FF92', '#5A87FF', '#FBF38C'];
+}
+// var pointerX = 0;
+// var pointerY = 0;
+// var tap = ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown';
+
+Explode.prototype.explosion = function explosion(explodeX, explodeY) {
+  const numberOfParticules = this.numberOfParticules;
+  const colors = this.colors;
+  function setParticuleDirection(p) {
+    var angle = anime.random(0, 360) * Math.PI / 180;
+    var value = anime.random(50, 180);
+    var radius = [-1, 1][anime.random(0, 1)] * value;
+    return {
+      x: p.x + radius * Math.cos(angle),
+      y: p.y + radius * Math.sin(angle)
+    };
+  }
+
+  function createParticule(x, y) {
+    var p = {};
+    p.x = x;
+    p.y = y;
+    p.color = colors[anime.random(0, colors.length - 1)];
+    p.radius = anime.random(16, 32);
+    p.endPos = setParticuleDirection(p);
+    p.draw = function () {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+    };
+    return p;
+  }
+
+  function createCircle(x, y) {
+    var p = {};
+    p.x = x;
+    p.y = y;
+    p.color = '#FFF';
+    p.radius = 0.1;
+    p.alpha = .5;
+    p.lineWidth = 6;
+    p.draw = function () {
+      ctx.globalAlpha = p.alpha;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+      ctx.lineWidth = p.lineWidth;
+      ctx.strokeStyle = p.color;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    };
+    return p;
+  }
+
+  function renderParticule(anim) {
+    for (var i = 0; i < anim.animatables.length; i++) {
+      anim.animatables[i].target.draw();
+    }
+  }
+
+  function animateParticules(x, y) {
+    var circle = createCircle(x, y);
+    var particules = [];
+    for (var i = 0; i < numberOfParticules; i++) {
+      particules.push(createParticule(x, y));
+    }
+    anime.timeline().add({
+      targets: particules,
+      x: function (p) {
+        return p.endPos.x;
+      },
+      y: function (p) {
+        return p.endPos.y;
+      },
+      radius: 0.1,
+      duration: anime.random(1200, 1800),
+      easing: 'easeOutExpo',
+      update: renderParticule
+    }).add({
+      targets: circle,
+      radius: anime.random(80, 160),
+      lineWidth: 0,
+      alpha: {
+        value: 0,
+        easing: 'linear',
+        duration: anime.random(600, 800)
+      },
+      duration: anime.random(1200, 1800),
+      easing: 'easeOutExpo',
+      update: renderParticule,
+      offset: 0
+    });
+  }
+
+  //clears animation
+  var render = anime({
+    duration: Infinity,
+    update: function () {
+      // ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+    }
+  });
+
+  //triggers animation
+  //sets location
+  // btn.onclick = function(){
+  //   debugger;
+  //   animateParticules(canvasEl.width/4,canvasEl.height/4);
+  //
+  // }
+
+
+  const explode = function (x, y) {
+    animateParticules(x, y);
+  };
+
+  explode(explodeX, explodeY);
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Explode);
+
+//
+// setCanvasSize();
+// window.addEventListener('resize', setCanvasSize, false);
 
 /***/ })
 /******/ ]);

@@ -1,6 +1,10 @@
 export const canvas = document.getElementById("myCanvas");
 export const ctx = canvas.getContext("2d");
 
+import Explode from "./explode";
+
+const explode = new Explode();
+
 function Invader (){
   //this.invaders to bomb
   this.invaderRowCount = 8;
@@ -73,6 +77,7 @@ Invader.prototype.collisionDetection = function collisionDetection(missile) {
           missile.missileY = canvas.height;
           missile.missileDY = 0;
           b.exist = false;
+          explode.explosion(b.x,b.y);
           //return true so that pong.js knows there was a collision
           return true;
         }
