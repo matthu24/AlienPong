@@ -118,11 +118,7 @@ Explode.prototype.explosion = function explosion(explodeX,explodeY){
   const explode = function(x,y){
     animateParticules(x,y);
   };
-
   explode(explodeX,explodeY);
-
-
-
 };
 
 

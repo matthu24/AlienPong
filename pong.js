@@ -2,18 +2,18 @@ import Ball from "./ball";
 import Ship from "./ship";
 import Missile from "./missile";
 import Invader from "./invader";
+import Explode from "./explode";
 
 
 export const canvas = document.getElementById("myCanvas");
 export const ctx = canvas.getContext("2d");
 
 
-
-
 const ball = new Ball();
 const ship = new Ship();
 const missile = new Missile(ship);
 const invader = new Invader();
+const explode = new Explode();
 
 //user interactivity
 let rightPressed = false;
@@ -113,6 +113,7 @@ const begin = document.getElementById("begin");
 begin.addEventListener("click", beginGame);
 
 function beginGame(){
+  explode.explosion(canvas.width/2,canvas.height/2);
   setInterval(draw,10);
   setInterval(speedBall,5000);
 }
@@ -144,7 +145,7 @@ instructionsSpan.onclick = function() {
     document.location.reload();
 };
 
-const instructionContent = "Left and right arrow to move the ship.  Up arrow fires at alien targets.  Score points by destroying aliens.  Don't allow the bouncing projectile or any of the aliens to reach the bottom.  The ball speeds up as the game progresses!";
+const instructionContent = "Left and right arrow to move the ship.  Up arrow fires at alien targets.  Score points by destroying aliens.  Don't allow the bouncing projectile or any of the aliens to reach the bottom.  The ball speeds up as the game progresses!  Explosions using the Anime.js library.";
 
 const instructionsBtn = document.getElementById("instruction");
 instructionsBtn.onclick = function(){

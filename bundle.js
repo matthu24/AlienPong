@@ -134,6 +134,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ship__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__missile__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__invader__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__explode__ = __webpack_require__(5);
+
 
 
 
@@ -150,6 +152,7 @@ const ball = new __WEBPACK_IMPORTED_MODULE_0__ball__["a" /* default */]();
 const ship = new __WEBPACK_IMPORTED_MODULE_1__ship__["a" /* default */]();
 const missile = new __WEBPACK_IMPORTED_MODULE_2__missile__["a" /* default */](ship);
 const invader = new __WEBPACK_IMPORTED_MODULE_3__invader__["a" /* default */]();
+const explode = new __WEBPACK_IMPORTED_MODULE_4__explode__["a" /* default */]();
 
 //user interactivity
 let rightPressed = false;
@@ -247,6 +250,7 @@ const begin = document.getElementById("begin");
 begin.addEventListener("click", beginGame);
 
 function beginGame() {
+  explode.explosion(canvas.width / 2, canvas.height / 2);
   setInterval(draw, 10);
   setInterval(speedBall, 5000);
 }
@@ -278,7 +282,7 @@ instructionsSpan.onclick = function () {
   document.location.reload();
 };
 
-const instructionContent = "Left and right arrow to move the ship.  Up arrow fires at alien targets.  Score points by destroying aliens.  Don't allow the bouncing projectile or any of the aliens to reach the bottom.  The ball speeds up as the game progresses!";
+const instructionContent = "Left and right arrow to move the ship.  Up arrow fires at alien targets.  Score points by destroying aliens.  Don't allow the bouncing projectile or any of the aliens to reach the bottom.  The ball speeds up as the game progresses!  Explosions using the Anime.js library.";
 
 const instructionsBtn = document.getElementById("instruction");
 instructionsBtn.onclick = function () {
@@ -611,7 +615,6 @@ Explode.prototype.explosion = function explosion(explodeX, explodeY) {
   const explode = function (x, y) {
     animateParticules(x, y);
   };
-
   explode(explodeX, explodeY);
 };
 
