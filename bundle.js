@@ -110,15 +110,15 @@ Ball.prototype.drawBall = function drawBall(ship) {
 Ball.prototype.speedBall = function speedBall() {
 
   if (this.ballDX > 0) {
-    this.ballDX += 0.04;
+    this.ballDX += 0.035;
   } else {
-    this.ballDX -= 0.04;
+    this.ballDX -= 0.035;
   }
 
   if (this.ballDY > 0) {
-    this.ballDY += 0.04;
+    this.ballDY += 0.035;
   } else {
-    this.ballDY -= 0.04;
+    this.ballDY -= 0.035;
   }
 };
 
