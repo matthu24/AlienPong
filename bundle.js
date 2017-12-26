@@ -63,11 +63,147 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+window.human = false;
+
+var canvasEl = document.getElementById("myCanvas");
+var ctx = canvasEl.getContext('2d');
+
+function Explode() {
+  this.numberOfParticules = 30;
+  this.colors = ['#FF1461', '#18FF92', '#5A87FF', '#FBF38C'];
+}
+// var pointerX = 0;
+// var pointerY = 0;
+// var tap = ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown';
+
+Explode.prototype.explosion = function explosion(explodeX, explodeY) {
+  const numberOfParticules = this.numberOfParticules;
+  const colors = this.colors;
+  function setParticuleDirection(p) {
+    var angle = anime.random(0, 360) * Math.PI / 180;
+    var value = anime.random(50, 180);
+    var radius = [-1, 1][anime.random(0, 1)] * value;
+    return {
+      x: p.x + radius * Math.cos(angle),
+      y: p.y + radius * Math.sin(angle)
+    };
+  }
+
+  function createParticule(x, y) {
+    var p = {};
+    p.x = x;
+    p.y = y;
+    p.color = colors[anime.random(0, colors.length - 1)];
+    p.radius = anime.random(16, 32);
+    p.endPos = setParticuleDirection(p);
+    p.draw = function () {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+    };
+    return p;
+  }
+
+  function createCircle(x, y) {
+    var p = {};
+    p.x = x;
+    p.y = y;
+    p.color = '#FFF';
+    p.radius = 0.1;
+    p.alpha = .5;
+    p.lineWidth = 6;
+    p.draw = function () {
+      ctx.globalAlpha = p.alpha;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+      ctx.lineWidth = p.lineWidth;
+      ctx.strokeStyle = p.color;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    };
+    return p;
+  }
+
+  function renderParticule(anim) {
+    for (var i = 0; i < anim.animatables.length; i++) {
+      anim.animatables[i].target.draw();
+    }
+  }
+
+  function animateParticules(x, y) {
+    var circle = createCircle(x, y);
+    var particules = [];
+    for (var i = 0; i < numberOfParticules; i++) {
+      particules.push(createParticule(x, y));
+    }
+    anime.timeline().add({
+      targets: particules,
+      x: function (p) {
+        return p.endPos.x;
+      },
+      y: function (p) {
+        return p.endPos.y;
+      },
+      radius: 0.1,
+      duration: anime.random(1200, 1800),
+      easing: 'easeOutExpo',
+      update: renderParticule
+    }).add({
+      targets: circle,
+      radius: anime.random(80, 160),
+      lineWidth: 0,
+      alpha: {
+        value: 0,
+        easing: 'linear',
+        duration: anime.random(600, 800)
+      },
+      duration: anime.random(1200, 1800),
+      easing: 'easeOutExpo',
+      update: renderParticule,
+      offset: 0
+    });
+  }
+
+  //clears animation
+  var render = anime({
+    duration: Infinity,
+    update: function () {
+      // ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+    }
+  });
+
+  //triggers animation
+  //sets location
+  // btn.onclick = function(){
+  //   debugger;
+  //   animateParticules(canvasEl.width/4,canvasEl.height/4);
+  //
+  // }
+
+
+  const explode = function (x, y) {
+    animateParticules(x, y);
+  };
+  explode(explodeX, explodeY);
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Explode);
+
+//
+// setCanvasSize();
+// window.addEventListener('resize', setCanvasSize, false);
+
+/***/ }),
+/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -125,16 +261,214 @@ Ball.prototype.speedBall = function speedBall() {
 /* harmony default export */ __webpack_exports__["a"] = (Ball);
 
 /***/ }),
-/* 1 */
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__explode__ = __webpack_require__(0);
+const canvas = document.getElementById("myCanvas");
+/* unused harmony export canvas */
+
+const ctx = canvas.getContext("2d");
+/* unused harmony export ctx */
+
+
+
+
+const explode = new __WEBPACK_IMPORTED_MODULE_0__explode__["a" /* default */]();
+
+function Invader() {
+  //this.invaders to bomb
+  this.invaderRowCount = 8;
+  this.invaderColumnCount = 6;
+  this.invaderWidth = 15;
+  this.invaderHeight = 10;
+  this.invaderPadding = 60;
+  //sets how far up the invaders come
+  this.invaderOffsetTop = -500;
+  this.invaderOffsetLeft = 50;
+  this.invaderY = 0;
+  this.invaderX = 0;
+  //direction of invaders is positive or going down
+  this.invaderDY = 0;
+  this.invaderDX = 0;
+  this.invaders = [];
+  for (let c = 0; c < this.invaderColumnCount; c++) {
+    this.invaders[c] = [];
+
+    for (let r = 0; r < this.invaderRowCount; r++) {
+      //if exist is true, draw it,
+      //if exist is false, don't
+      this.invaders[c][r] = { x: 0, y: 0, exist: true };
+    }
+    //invaders:
+    //[ [ { x: 0, y: 0, exist:true }, { x: 0, y: 0 }, { x: 0, y: 0 } ],
+    //  [ { x: 0, y: 0 }, { x: 0, y: 0 }, { x: 0, y: 0 } ],
+    //  [ { x: 0, y: 0 }, { x: 0, y: 0 }, { x: 0, y: 0 } ] ]
+  }
+}
+
+Invader.prototype.drawInvaders = function drawInvaders() {
+  for (let c = 0; c < this.invaderColumnCount; c++) {
+    for (let r = 0; r < this.invaderRowCount; r++) {
+
+      if (this.invaders[c][r].exist === true) {
+        this.invaderX = c * (this.invaderWidth + this.invaderPadding) + this.invaderOffsetLeft;
+        //this.invaderDY moves position of invaders
+        this.invaderY = 0.2 * c * r * (this.invaderHeight + this.invaderPadding) + this.invaderOffsetTop + this.invaderDY;
+        this.invaders[c][r].x = this.invaderX;
+        this.invaders[c][r].y = this.invaderY;
+        ctx.beginPath();
+        ctx.arc(this.invaderX, this.invaderY, this.invaderWidth, 0, Math.PI * 2, false);
+        ctx.moveTo(this.invaderX - this.invaderWidth, this.invaderY);
+        ctx.lineTo(this.invaderX - this.invaderWidth / 2, this.invaderY + 20);
+        ctx.lineTo(this.invaderX, this.invaderY + 4);
+        ctx.lineTo(this.invaderX + this.invaderWidth / 2, this.invaderY + 20);
+        ctx.lineTo(this.invaderX + this.invaderWidth, this.invaderY);
+        ctx.lineTo(this.invaderX, this.invaderY - this.invaderWidth);
+        ctx.fillStyle = "#FF0000";
+        ctx.fill();
+        ctx.closePath();
+      }
+    }
+  }
+  this.invaderDY += 0.05;
+};
+
+//loop through invaders,
+Invader.prototype.collisionDetection = function collisionDetection(missile) {
+  for (let i = 0; i < this.invaderColumnCount; i++) {
+    for (let j = 0; j < this.invaderRowCount; j++) {
+      //this.invaders[[i][j] gives you the location object of the particular
+      //this.invader : {x: 0,y:0}
+      let b = this.invaders[i][j];
+      if (b.exist === true) {
+        //this makes sure the missile intersects the position of the this.invader
+        if (missile.missileX > b.x - this.invaderWidth && missile.missileX < b.x + this.invaderWidth && missile.missileY > b.y && missile.missileY < b.y + this.invaderHeight) {
+          // ballDY=-ballDY;
+          missile.missileY = canvas.height;
+          missile.missileDY = 0;
+          b.exist = false;
+          explode.explosion(b.x, b.y);
+          //return true so that pong.js knows there was a collision
+          return true;
+        }
+      }
+    }
+  }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Invader);
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+const canvas = document.getElementById("myCanvas");
+/* unused harmony export canvas */
+
+const ctx = canvas.getContext("2d");
+/* unused harmony export ctx */
+
+
+function Missile(ship) {
+  this.missileHeight = 10;
+  this.missileWidth = 5;
+  this.missileX = ship.shipX;
+  this.missileY = canvas.height;
+  this.missileDY = 0;
+}
+
+Missile.prototype.drawMissile = function drawMissile(upPressed, ship) {
+  ctx.beginPath();
+  ctx.rect(this.missileX, this.missileY, this.missileWidth, this.missileHeight);
+  ctx.fillStyle = "#0095DD";
+  ctx.fill();
+  ctx.closePath();
+
+  if (this.missileY < 0) {
+    this.missileY = canvas.height;
+    this.missileDY = 0;
+  }
+  if (upPressed === true) {
+    this.missileDY = -4;
+    if (this.missileY === canvas.height) {
+      this.missileX = ship.shipX + ship.shipWidth / 2;
+    }
+  }
+  this.missileY += this.missileDY;
+};
+
+Missile.prototype.animate = function animate(upPressed, ship) {
+  if (this.missileY < 0) {
+    this.missileY = canvas.height;
+    this.missileDY = 0;
+  }
+  if (upPressed === true) {
+    this.missileDY = -4;
+    if (this.missileY === canvas.height) {
+      this.missileX = ship.shipX + ship.shipWidth / 2;
+    }
+  }
+  this.missileY += this.missileDY;
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Missile);
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const canvas = document.getElementById("myCanvas");
+/* unused harmony export canvas */
+
+const ctx = canvas.getContext("2d");
+/* unused harmony export ctx */
+
+
+function Ship() {
+  this.shipHeight = 10;
+  this.shipWidth = 75;
+  this.shipX = (canvas.width - this.shipWidth) / 2;
+  this.shipY = canvas.height - this.shipHeight;
+}
+
+Ship.prototype.drawShip = function drawShip(rightPressed, leftPressed) {
+  ctx.beginPath();
+  //x,y coords of the top left coner of a rect
+  //x,y coords of the bottom right of a rect
+
+  //(pos left the start of the shape,pos down the start of the shape, width, height )
+  // ctx.rect(shipX, canvas.height-shipHeight, shipWidth, shipHeight);
+  ctx.rect(this.shipX, this.shipY, this.shipWidth, this.shipHeight);
+
+  ctx.fillStyle = "#0095DD";
+  ctx.fill();
+  ctx.closePath();
+  if (rightPressed === true && this.shipX < canvas.width - this.shipWidth) {
+    this.shipX += 7;
+    //move ship left
+  } else if (leftPressed === true && this.shipX > 0) {
+    this.shipX -= 7;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Ship);
+
+/***/ }),
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ball__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ship__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ball__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ship__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__missile__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__invader__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__explode__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__invader__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__explode__ = __webpack_require__(0);
 
 
 
@@ -289,340 +623,6 @@ instructionsBtn.onclick = function () {
   document.getElementById("modal-instruction").innerHTML = instructionContent;
   instructionsModal.style.display = "block";
 };
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-const canvas = document.getElementById("myCanvas");
-/* unused harmony export canvas */
-
-const ctx = canvas.getContext("2d");
-/* unused harmony export ctx */
-
-
-function Ship() {
-  this.shipHeight = 10;
-  this.shipWidth = 75;
-  this.shipX = (canvas.width - this.shipWidth) / 2;
-  this.shipY = canvas.height - this.shipHeight;
-}
-
-Ship.prototype.drawShip = function drawShip(rightPressed, leftPressed) {
-  ctx.beginPath();
-  //x,y coords of the top left coner of a rect
-  //x,y coords of the bottom right of a rect
-
-  //(pos left the start of the shape,pos down the start of the shape, width, height )
-  // ctx.rect(shipX, canvas.height-shipHeight, shipWidth, shipHeight);
-  ctx.rect(this.shipX, this.shipY, this.shipWidth, this.shipHeight);
-
-  ctx.fillStyle = "#0095DD";
-  ctx.fill();
-  ctx.closePath();
-  if (rightPressed === true && this.shipX < canvas.width - this.shipWidth) {
-    this.shipX += 7;
-    //move ship left
-  } else if (leftPressed === true && this.shipX > 0) {
-    this.shipX -= 7;
-  }
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (Ship);
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-const canvas = document.getElementById("myCanvas");
-/* unused harmony export canvas */
-
-const ctx = canvas.getContext("2d");
-/* unused harmony export ctx */
-
-
-function Missile(ship) {
-  this.missileHeight = 10;
-  this.missileWidth = 5;
-  this.missileX = ship.shipX;
-  this.missileY = canvas.height;
-  this.missileDY = 0;
-}
-
-Missile.prototype.drawMissile = function drawMissile(upPressed, ship) {
-  ctx.beginPath();
-  ctx.rect(this.missileX, this.missileY, this.missileWidth, this.missileHeight);
-  ctx.fillStyle = "#0095DD";
-  ctx.fill();
-  ctx.closePath();
-
-  if (this.missileY < 0) {
-    this.missileY = canvas.height;
-    this.missileDY = 0;
-  }
-  if (upPressed === true) {
-    this.missileDY = -4;
-    if (this.missileY === canvas.height) {
-      this.missileX = ship.shipX + ship.shipWidth / 2;
-    }
-  }
-  this.missileY += this.missileDY;
-};
-
-Missile.prototype.animate = function animate(upPressed, ship) {
-  if (this.missileY < 0) {
-    this.missileY = canvas.height;
-    this.missileDY = 0;
-  }
-  if (upPressed === true) {
-    this.missileDY = -4;
-    if (this.missileY === canvas.height) {
-      this.missileX = ship.shipX + ship.shipWidth / 2;
-    }
-  }
-  this.missileY += this.missileDY;
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (Missile);
-
-/***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__explode__ = __webpack_require__(5);
-const canvas = document.getElementById("myCanvas");
-/* unused harmony export canvas */
-
-const ctx = canvas.getContext("2d");
-/* unused harmony export ctx */
-
-
-
-
-const explode = new __WEBPACK_IMPORTED_MODULE_0__explode__["a" /* default */]();
-
-function Invader() {
-  //this.invaders to bomb
-  this.invaderRowCount = 8;
-  this.invaderColumnCount = 6;
-  this.invaderWidth = 15;
-  this.invaderHeight = 10;
-  this.invaderPadding = 60;
-  //sets how far up the invaders come
-  this.invaderOffsetTop = -500;
-  this.invaderOffsetLeft = 50;
-  this.invaderY = 0;
-  this.invaderX = 0;
-  //direction of invaders is positive or going down
-  this.invaderDY = 0;
-  this.invaderDX = 0;
-  this.invaders = [];
-  for (let c = 0; c < this.invaderColumnCount; c++) {
-    this.invaders[c] = [];
-
-    for (let r = 0; r < this.invaderRowCount; r++) {
-      //if exist is true, draw it,
-      //if exist is false, don't
-      this.invaders[c][r] = { x: 0, y: 0, exist: true };
-    }
-    //invaders:
-    //[ [ { x: 0, y: 0, exist:true }, { x: 0, y: 0 }, { x: 0, y: 0 } ],
-    //  [ { x: 0, y: 0 }, { x: 0, y: 0 }, { x: 0, y: 0 } ],
-    //  [ { x: 0, y: 0 }, { x: 0, y: 0 }, { x: 0, y: 0 } ] ]
-  }
-}
-
-Invader.prototype.drawInvaders = function drawInvaders() {
-  for (let c = 0; c < this.invaderColumnCount; c++) {
-    for (let r = 0; r < this.invaderRowCount; r++) {
-
-      if (this.invaders[c][r].exist === true) {
-        this.invaderX = c * (this.invaderWidth + this.invaderPadding) + this.invaderOffsetLeft;
-        //this.invaderDY moves position of invaders
-        this.invaderY = 0.2 * c * r * (this.invaderHeight + this.invaderPadding) + this.invaderOffsetTop + this.invaderDY;
-        this.invaders[c][r].x = this.invaderX;
-        this.invaders[c][r].y = this.invaderY;
-        ctx.beginPath();
-        ctx.arc(this.invaderX, this.invaderY, this.invaderWidth, 0, Math.PI * 2, false);
-        ctx.moveTo(this.invaderX - this.invaderWidth, this.invaderY);
-        ctx.lineTo(this.invaderX - this.invaderWidth / 2, this.invaderY + 20);
-        ctx.lineTo(this.invaderX, this.invaderY + 4);
-        ctx.lineTo(this.invaderX + this.invaderWidth / 2, this.invaderY + 20);
-        ctx.lineTo(this.invaderX + this.invaderWidth, this.invaderY);
-        ctx.lineTo(this.invaderX, this.invaderY - this.invaderWidth);
-        ctx.fillStyle = "#FF0000";
-        ctx.fill();
-        ctx.closePath();
-      }
-    }
-  }
-  this.invaderDY += 0.05;
-};
-
-//loop through invaders,
-Invader.prototype.collisionDetection = function collisionDetection(missile) {
-  for (let i = 0; i < this.invaderColumnCount; i++) {
-    for (let j = 0; j < this.invaderRowCount; j++) {
-      //this.invaders[[i][j] gives you the location object of the particular
-      //this.invader : {x: 0,y:0}
-      let b = this.invaders[i][j];
-      if (b.exist === true) {
-        //this makes sure the missile intersects the position of the this.invader
-        if (missile.missileX > b.x - this.invaderWidth && missile.missileX < b.x + this.invaderWidth && missile.missileY > b.y && missile.missileY < b.y + this.invaderHeight) {
-          // ballDY=-ballDY;
-          missile.missileY = canvas.height;
-          missile.missileDY = 0;
-          b.exist = false;
-          explode.explosion(b.x, b.y);
-          //return true so that pong.js knows there was a collision
-          return true;
-        }
-      }
-    }
-  }
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (Invader);
-
-/***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-window.human = false;
-
-var canvasEl = document.getElementById("myCanvas");
-var ctx = canvasEl.getContext('2d');
-
-function Explode() {
-  this.numberOfParticules = 30;
-  this.colors = ['#FF1461', '#18FF92', '#5A87FF', '#FBF38C'];
-}
-// var pointerX = 0;
-// var pointerY = 0;
-// var tap = ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown';
-
-Explode.prototype.explosion = function explosion(explodeX, explodeY) {
-  const numberOfParticules = this.numberOfParticules;
-  const colors = this.colors;
-  function setParticuleDirection(p) {
-    var angle = anime.random(0, 360) * Math.PI / 180;
-    var value = anime.random(50, 180);
-    var radius = [-1, 1][anime.random(0, 1)] * value;
-    return {
-      x: p.x + radius * Math.cos(angle),
-      y: p.y + radius * Math.sin(angle)
-    };
-  }
-
-  function createParticule(x, y) {
-    var p = {};
-    p.x = x;
-    p.y = y;
-    p.color = colors[anime.random(0, colors.length - 1)];
-    p.radius = anime.random(16, 32);
-    p.endPos = setParticuleDirection(p);
-    p.draw = function () {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
-      ctx.fillStyle = p.color;
-      ctx.fill();
-    };
-    return p;
-  }
-
-  function createCircle(x, y) {
-    var p = {};
-    p.x = x;
-    p.y = y;
-    p.color = '#FFF';
-    p.radius = 0.1;
-    p.alpha = .5;
-    p.lineWidth = 6;
-    p.draw = function () {
-      ctx.globalAlpha = p.alpha;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
-      ctx.lineWidth = p.lineWidth;
-      ctx.strokeStyle = p.color;
-      ctx.stroke();
-      ctx.globalAlpha = 1;
-    };
-    return p;
-  }
-
-  function renderParticule(anim) {
-    for (var i = 0; i < anim.animatables.length; i++) {
-      anim.animatables[i].target.draw();
-    }
-  }
-
-  function animateParticules(x, y) {
-    var circle = createCircle(x, y);
-    var particules = [];
-    for (var i = 0; i < numberOfParticules; i++) {
-      particules.push(createParticule(x, y));
-    }
-    anime.timeline().add({
-      targets: particules,
-      x: function (p) {
-        return p.endPos.x;
-      },
-      y: function (p) {
-        return p.endPos.y;
-      },
-      radius: 0.1,
-      duration: anime.random(1200, 1800),
-      easing: 'easeOutExpo',
-      update: renderParticule
-    }).add({
-      targets: circle,
-      radius: anime.random(80, 160),
-      lineWidth: 0,
-      alpha: {
-        value: 0,
-        easing: 'linear',
-        duration: anime.random(600, 800)
-      },
-      duration: anime.random(1200, 1800),
-      easing: 'easeOutExpo',
-      update: renderParticule,
-      offset: 0
-    });
-  }
-
-  //clears animation
-  var render = anime({
-    duration: Infinity,
-    update: function () {
-      // ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
-    }
-  });
-
-  //triggers animation
-  //sets location
-  // btn.onclick = function(){
-  //   debugger;
-  //   animateParticules(canvasEl.width/4,canvasEl.height/4);
-  //
-  // }
-
-
-  const explode = function (x, y) {
-    animateParticules(x, y);
-  };
-  explode(explodeX, explodeY);
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (Explode);
-
-//
-// setCanvasSize();
-// window.addEventListener('resize', setCanvasSize, false);
 
 /***/ })
 /******/ ]);
