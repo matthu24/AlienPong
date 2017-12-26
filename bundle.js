@@ -248,23 +248,23 @@ Ball.prototype.drawBall = function drawBall(ship) {
     const ballRightEdge = this.ballX < ship.shipX + ship.shipWidth + this.ballRadius && this.ballX > ship.shipX + ship.shipWidth;
     const ballMovingRight = this.ballDX > 0 ? true : false;
     if (ballHitsShip && ballWithinShip) {
-      this.ballDY = -this.ballDY;
+      this.ballDY = Math.abs(this.ballDY) * -1;
 
       //THIS IS THE EDGE CASE
     } else if (ballHitsShip) {
       // return false;
       if (ballLeftEdge) {
         if (ballMovingRight) {
-          this.ballDY = -this.ballDY;
+          this.ballDY = Math.abs(this.ballDY) * -1;
           this.ballDX = -this.ballDX;
         } else {
-          this.ballDY = -this.ballDY;
+          this.ballDY = Math.abs(this.ballDY) * -1;
         }
       } else if (ballRightEdge) {
         if (ballMovingRight) {
-          this.ballDY = -this.ballDY;
+          this.ballDY = Math.abs(this.ballDY) * -1;
         } else {
-          this.ballDY = -this.ballDY;
+          this.ballDY = Math.abs(this.ballDY) * -1;
           this.ballDX = -this.ballDX;
         }
       } else if (this.ballY > canvas.height) {
@@ -470,7 +470,7 @@ const ctx = canvas.getContext("2d");
 
 
 function Ship() {
-  this.shipHeight = 7;
+  this.shipHeight = 9;
   this.shipWidth = 75;
   this.shipX = (canvas.width - this.shipWidth) / 2;
   this.shipY = canvas.height - this.shipHeight;
