@@ -254,23 +254,26 @@ Ball.prototype.drawBall = function drawBall(ship) {
 
       //THIS IS THE EDGE CASE
     } else if (ballHitsShip) {
-      if (ballLeftEdge) {
-        if (ballMovingRight) {
-          this.ballDY = -this.ballDY;
-          this.ballDX = -this.ballDX;
-        } else {
-          this.ballDY = -this.ballDY;
-        }
-      } else if (ballRightEdge) {
-        if (ballMovingRight) {
-          this.ballDY = -this.ballDY;
-        } else {
-          this.ballDY = -this.ballDY;
-          this.ballDX = -this.ballDX;
-        }
-      } else if (this.ballY > canvas.height - this.ballRadius) {
-        return false;
-      }
+      return false;
+      // if (ballLeftEdge) {
+      // if (ballMovingRight) {
+      //   this.ballDY = -this.ballDY;
+      //   this.ballDX = -this.ballDX;
+      // }else{
+      //   this.ballDY = -this.ballDY;
+      // }
+      // }else if (ballRightEdge) {
+      // if (ballMovingRight) {
+      //   this.ballDY = -this.ballDY;
+      // }else{
+      //   this.ballDY = -this.ballDY;
+      //   this.ballDX = -this.ballDX;
+      //
+      // }
+
+      // }else if(this.ballY > canvas.height-this.ballRadius){
+      //   return false;
+      // }
     } else if (this.ballY > canvas.height - this.ballRadius) {
       return false;
     }
