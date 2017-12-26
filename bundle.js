@@ -239,8 +239,6 @@ Ball.prototype.drawBall = function drawBall(ship) {
     //   this.ballDY = -this.ballDY;
     //   this.ballDX = -this.ballDX;
     // }
-
-
     // if(this.ballY > canvas.height-this.ballRadius-ship.shipHeight&&this.ballX > ship.shipX-this.ballRadius && this.ballX < ship.shipX + ship.shipWidth) {
     //   return false
     // }else
