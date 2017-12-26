@@ -30,18 +30,40 @@ Ball.prototype.drawBall = function drawBall(ship) {
     //   this.ballDY = -this.ballDY;
     //   this.ballDX = -this.ballDX;
     // }
-
-
     // if(this.ballY > canvas.height-this.ballRadius-ship.shipHeight&&this.ballX > ship.shipX-this.ballRadius && this.ballX < ship.shipX + ship.shipWidth) {
     //   return false
     // }else
-    if(this.ballY + this.ballDY > canvas.height-this.ballRadius-ship.shipHeight&&this.ballX > ship.shipX && this.ballX < ship.shipX + ship.shipWidth){
+    const ballHitsShip = this.ballY + this.ballDY > canvas.height-this.ballRadius-ship.shipHeight;
+    const ballWithinShip = this.ballX > ship.shipX && this.ballX < ship.shipX + ship.shipWidth;
+    const ballLeftEdge = this.ballX > ship.shipX-this.ballRadius && this.ballX < ship.shipX;
+    const ballRightEdge = this.ballX < ship.shipX + ship.shipWidth+this.ballRadius && this.ballX > ship.shipX + ship.shipWidth;
+    const ballMovingRight = this.ballDX > 0 ? true : false;
+    if(ballHitsShip && ballWithinShip){
       this.ballDY = -this.ballDY;
 
       //THIS IS THE EDGE CASE
-    }else if(this.ballY + this.ballDY > canvas.height-this.ballRadius-ship.shipHeight&&((this.ballX > ship.shipX-this.ballRadius && this.ballX < ship.shipX) || (this.ballX < ship.shipX + ship.shipWidth+this.ballRadius && this.ballX > ship.shipX + ship.shipWidth))) {
-      this.ballDY = -this.ballDY;
-      this.ballDX = -this.ballDX;
+    }else if(ballHitsShip) {
+      return false;
+      // if (ballLeftEdge) {
+        // if (ballMovingRight) {
+        //   this.ballDY = -this.ballDY;
+        //   this.ballDX = -this.ballDX;
+        // }else{
+        //   this.ballDY = -this.ballDY;
+        // }
+      // }else if (ballRightEdge) {
+        // if (ballMovingRight) {
+        //   this.ballDY = -this.ballDY;
+        // }else{
+        //   this.ballDY = -this.ballDY;
+        //   this.ballDX = -this.ballDX;
+        //
+        // }
+
+      // }else if(this.ballY > canvas.height-this.ballRadius){
+      //   return false;
+      // }
+
     } else if(this.ballY > canvas.height-this.ballRadius){
       return false;
     }
