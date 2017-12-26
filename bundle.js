@@ -214,8 +214,8 @@ function Ball() {
   this.ballX = canvas.width / 2;
   this.ballY = canvas.height - 100;
   this.ballRadius = 10;
-  this.ballDX = 2;
-  this.ballDY = -2;
+  this.ballDX = 1.5;
+  this.ballDY = -1.5;
 }
 
 Ball.prototype.drawBall = function drawBall(ship) {
@@ -225,19 +225,40 @@ Ball.prototype.drawBall = function drawBall(ship) {
   ctx.fill();
   ctx.closePath();
 
+  //handles collision with walls
+  //adds DX prematurely because don't want ball to sink into walls
   if (this.ballX + this.ballDX > canvas.width - this.ballRadius || this.ballX + this.ballDX < this.ballRadius) {
     this.ballDX = -this.ballDX;
   }
+  //handle collision with ceiling
   if (this.ballY + this.ballDY < this.ballRadius) {
     this.ballDY = -this.ballDY;
   } else {
     //if this.ball hits the ship it changes direction
+    // if (this.ballY + this.ballDY === canvas.height-this.ballRadius-ship.shipHeight&&this.ballX > ship.shipX && this.ballX < ship.shipX + ship.shipWidth) {
+    //   this.ballDY = -this.ballDY;
+    //   this.ballDX = -this.ballDX;
+    // }
+
+
+    // if(this.ballY > canvas.height-this.ballRadius-ship.shipHeight&&this.ballX > ship.shipX-this.ballRadius && this.ballX < ship.shipX + ship.shipWidth) {
+    //   return false
+    // }else
     if (this.ballY + this.ballDY > canvas.height - this.ballRadius - ship.shipHeight && this.ballX > ship.shipX && this.ballX < ship.shipX + ship.shipWidth) {
       this.ballDY = -this.ballDY;
-    } else if (this.ballY + this.ballDY > canvas.height + this.ballRadius) {
-      //if ship and this.ball are on the same y coordinate
+
+      //THIS IS THE EDGE CASE
+    } else if (this.ballY + this.ballDY > canvas.height - this.ballRadius - ship.shipHeight && (this.ballX > ship.shipX - this.ballRadius && this.ballX < ship.shipX || this.ballX < ship.shipX + ship.shipWidth + this.ballRadius && this.ballX > ship.shipX + ship.shipWidth)) {
+      this.ballDY = -this.ballDY;
+      this.ballDX = -this.ballDX;
+    } else if (this.ballY > canvas.height - this.ballRadius) {
       return false;
     }
+
+    // else if (this.ballY + this.ballDY > canvas.height+this.ballRadius ) {
+    // //if ship and this.ball are on the same y coordinate
+    //   return false;
+    // }
   }
   this.ballX += this.ballDX;
   this.ballY += this.ballDY;
@@ -246,15 +267,15 @@ Ball.prototype.drawBall = function drawBall(ship) {
 Ball.prototype.speedBall = function speedBall() {
 
   if (this.ballDX > 0) {
-    this.ballDX += 0.035;
+    this.ballDX += 0.03;
   } else {
-    this.ballDX -= 0.035;
+    this.ballDX -= 0.03;
   }
 
   if (this.ballDY > 0) {
-    this.ballDY += 0.035;
+    this.ballDY += 0.03;
   } else {
-    this.ballDY -= 0.035;
+    this.ballDY -= 0.03;
   }
 };
 
