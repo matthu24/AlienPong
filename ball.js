@@ -42,7 +42,7 @@ Ball.prototype.drawBall = function drawBall(ship) {
     }else if(this.ballY + this.ballDY > canvas.height-this.ballRadius-ship.shipHeight&&((this.ballX > ship.shipX-this.ballRadius && this.ballX < ship.shipX) || (this.ballX < ship.shipX + ship.shipWidth+this.ballRadius && this.ballX > ship.shipX + ship.shipWidth))) {
       this.ballDY = -this.ballDY;
       this.ballDX = -this.ballDX;
-    } else if(this.ballY > canvas.height-this.ballRadius-ship.shipHeight){
+    } else if(this.ballY > canvas.height-this.ballRadius){
       return false;
     }
 
