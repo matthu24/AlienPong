@@ -2,7 +2,7 @@ export const canvas = document.getElementById("myCanvas");
 export const ctx = canvas.getContext("2d");
 
 function Ship(){
-  this.shipHeight = 10;
+  this.shipHeight = 7;
   this.shipWidth = 75;
   this.shipX = (canvas.width-this.shipWidth)/2;
   this.shipY = (canvas.height-this.shipHeight);
@@ -18,6 +18,7 @@ Ship.prototype.drawShip = function drawShip(rightPressed,leftPressed) {
   ctx.rect(this.shipX, this.shipY, this.shipWidth, this.shipHeight);
 
   ctx.fillStyle = "#0095DD";
+  // ctx.fillStyle = "FFD700";
   ctx.fill();
   ctx.closePath();
   if (rightPressed === true && this.shipX < canvas.width - this.shipWidth ) {

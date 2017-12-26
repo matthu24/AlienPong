@@ -252,26 +252,24 @@ Ball.prototype.drawBall = function drawBall(ship) {
 
       //THIS IS THE EDGE CASE
     } else if (ballHitsShip) {
-      return false;
-      // if (ballLeftEdge) {
-      // if (ballMovingRight) {
-      //   this.ballDY = -this.ballDY;
-      //   this.ballDX = -this.ballDX;
-      // }else{
-      //   this.ballDY = -this.ballDY;
-      // }
-      // }else if (ballRightEdge) {
-      // if (ballMovingRight) {
-      //   this.ballDY = -this.ballDY;
-      // }else{
-      //   this.ballDY = -this.ballDY;
-      //   this.ballDX = -this.ballDX;
-      //
-      // }
-
-      // }else if(this.ballY > canvas.height-this.ballRadius){
-      //   return false;
-      // }
+      // return false;
+      if (ballLeftEdge) {
+        if (ballMovingRight) {
+          this.ballDY = -this.ballDY;
+          this.ballDX = -this.ballDX;
+        } else {
+          this.ballDY = -this.ballDY;
+        }
+      } else if (ballRightEdge) {
+        if (ballMovingRight) {
+          this.ballDY = -this.ballDY;
+        } else {
+          this.ballDY = -this.ballDY;
+          this.ballDX = -this.ballDX;
+        }
+      } else if (this.ballY > canvas.height) {
+        return false;
+      }
     } else if (this.ballY > canvas.height - this.ballRadius) {
       return false;
     }
@@ -472,7 +470,7 @@ const ctx = canvas.getContext("2d");
 
 
 function Ship() {
-  this.shipHeight = 10;
+  this.shipHeight = 7;
   this.shipWidth = 75;
   this.shipX = (canvas.width - this.shipWidth) / 2;
   this.shipY = canvas.height - this.shipHeight;
@@ -488,6 +486,7 @@ Ship.prototype.drawShip = function drawShip(rightPressed, leftPressed) {
   ctx.rect(this.shipX, this.shipY, this.shipWidth, this.shipHeight);
 
   ctx.fillStyle = "#0095DD";
+  // ctx.fillStyle = "FFD700";
   ctx.fill();
   ctx.closePath();
   if (rightPressed === true && this.shipX < canvas.width - this.shipWidth) {
