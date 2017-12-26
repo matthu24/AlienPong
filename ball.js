@@ -33,16 +33,16 @@ Ball.prototype.drawBall = function drawBall(ship) {
     // if(this.ballY > canvas.height-this.ballRadius-ship.shipHeight&&this.ballX > ship.shipX-this.ballRadius && this.ballX < ship.shipX + ship.shipWidth) {
     //   return false
     // }else
-    const ballHitsShip = this.ballY + this.ballDY > canvas.height-this.ballRadius-ship.shipHeight;
+    const ballHitsYPlane = this.ballY + this.ballDY > canvas.height-this.ballRadius-ship.shipHeight;
     const ballWithinShip = this.ballX > ship.shipX && this.ballX < ship.shipX + ship.shipWidth;
     const ballLeftEdge = this.ballX > ship.shipX-this.ballRadius && this.ballX < ship.shipX;
     const ballRightEdge = this.ballX < ship.shipX + ship.shipWidth+this.ballRadius && this.ballX > ship.shipX + ship.shipWidth;
     const ballMovingRight = this.ballDX > 0 ? true : false;
-    if(ballHitsShip && ballWithinShip){
+    if(ballHitsYPlane && ballWithinShip){
       this.ballDY = Math.abs(this.ballDY)*-1;
 
       //THIS IS THE EDGE CASE
-    }else if(ballHitsShip) {
+    }else if(ballHitsYPlane) {
       // return false;
       if (ballLeftEdge) {
         if (ballMovingRight) {
@@ -60,14 +60,14 @@ Ball.prototype.drawBall = function drawBall(ship) {
 
         }
 
-      }else if(this.ballY > canvas.height){
+      }else if(this.ballY > canvas.height + this.ballRadius/2){
         return false;
       }
 
     }
-  else if(this.ballY > canvas.height-this.ballRadius){
-      return false;
-    }
+  // else if(this.ballY > canvas.height+this.ballRadius){
+  //     return false;
+  //   }
 
 
     // else if (this.ballY + this.ballDY > canvas.height+this.ballRadius ) {
