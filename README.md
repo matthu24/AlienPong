@@ -1,5 +1,7 @@
 # Alien Pong
 
+Live version: file:///Users/matthu24/Desktop/alien-pong/index.html
+
 ## Background and Overview 
 
 Alien Pong is a twist on the two classic games pong and space invaders.  Users will control a ship that will protect the bottom horizontal line (x axis) that it sits on.  The ship will move to deflect the bouncing projectile from going past the x axis, all the while shooting missiles upwards to destroy the alien invaders that slowly approach from above.  If the projectile or 3 alien invaders cross the x axis, the game is lost.  Speed of the projectile and quantity of invaders increases as the game progresses.  The user wins if a certain number of invaders are destroyed.  
