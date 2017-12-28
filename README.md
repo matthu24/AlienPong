@@ -1,6 +1,7 @@
 # Alien Pong
 
-Live version: file:///Users/matthu24/Desktop/alien-pong/index.html
+[Live version](file:///Users/matthu24/Desktop/alien-pong/index.html)
+
 
 ## Background and Overview 
 
