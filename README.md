@@ -1,6 +1,6 @@
 # Alien Pong
 
-[Live version](file:///Users/matthu24/Desktop/alien-pong/index.html)
+[Live version](https://matthu24.github.io/alien-pong/ "Live version")
 
 
 ## Background and Overview 
