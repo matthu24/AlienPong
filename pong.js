@@ -97,6 +97,7 @@ function draw() {
     document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
     beginModal.style.display = "block";
     ctx.clearRect(0,0,canvas.width,canvas.height);
+    drawInitial();
 
   }
 }
