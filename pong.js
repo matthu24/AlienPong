@@ -8,6 +8,7 @@ import Explode from "./explode";
 export const canvas = document.getElementById("myCanvas");
 export const ctx = canvas.getContext("2d");
 
+drawInitial();
 window.onload = function() {
   drawInitial();
 };

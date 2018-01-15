@@ -525,6 +525,7 @@ const ctx = canvas.getContext("2d");
 /* harmony export (immutable) */ __webpack_exports__["ctx"] = ctx;
 
 
+drawInitial();
 window.onload = function () {
   drawInitial();
 };
