@@ -11,7 +11,7 @@ export const ctx = canvas.getContext("2d");
 // document.addEventListener("DOMContentLoaded", drawInitial);
 // document.onload = drawInitial();
 // setTimeout(drawInitial,0)
-
+drawInitial();
 window.onload = function() {
   drawInitial();
 };
