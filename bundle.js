@@ -374,7 +374,7 @@ Invader.prototype.drawInvaders = function drawInvaders() {
       }
     }
   }
-  this.invaderDY += 0.08;
+  this.invaderDY += 0.065;
 };
 
 //loop through invaders,
