@@ -488,14 +488,13 @@ Ship.prototype.drawShip = function drawShip(rightPressed, leftPressed) {
   ctx.rect(this.shipX, this.shipY, this.shipWidth, this.shipHeight);
 
   ctx.fillStyle = "#0095DD";
-  // ctx.fillStyle = "FFD700";
   ctx.fill();
   ctx.closePath();
   if (rightPressed === true && this.shipX < canvas.width - this.shipWidth) {
-    this.shipX += 7;
+    this.shipX += 6;
     //move ship left
   } else if (leftPressed === true && this.shipX > 0) {
-    this.shipX -= 7;
+    this.shipX -= 6;
   }
 };
 
