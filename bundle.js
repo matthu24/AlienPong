@@ -523,6 +523,14 @@ const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 /* harmony export (immutable) */ __webpack_exports__["ctx"] = ctx;
 
+// document.onload(drawInitial());
+// document.addEventListener("DOMContentLoaded", drawInitial);
+// document.onload = drawInitial();
+// setTimeout(drawInitial,0)
+
+window.onload = function () {
+  drawInitial();
+};
 
 const ball = new __WEBPACK_IMPORTED_MODULE_0__ball__["a" /* default */]();
 const ship = new __WEBPACK_IMPORTED_MODULE_1__ship__["a" /* default */]();
@@ -537,6 +545,24 @@ let upPressed = false;
 let downPressed = false;
 let score = 0;
 let ballLive = true;
+
+function drawInitial() {
+  // ctx.beginPath();
+  // //x,y coords of the top left coner of a rect
+  // //x,y coords of the bottom right of a rect
+  //
+  // //(pos left the start of the shape,pos down the start of the shape, width, height )
+  // // ctx.rect(shipX, canvas.height-shipHeight, shipWidth, shipHeight);
+  // ctx.rect(0, 0, canvas.width/2, canvas.height/2);
+  //
+  // ctx.fillStyle = "#0095DD";
+  // ctx.fill();
+  // ctx.closePath();
+
+  var image = new Image(100, 200);
+  image.src = "https://s3.us-east-2.amazonaws.com/greenapron/sprite3.png";
+  ctx.drawImage(image, 0, 0, 500, 340);
+}
 
 function gameOver(invader) {
   if (ballLive === false) {
@@ -588,7 +614,7 @@ function draw() {
   document.getElementById("score").innerHTML = "Score: " + score;
   if (gameOver(invader) === true) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    drawInitial();
     document.getElementById("modal-score").innerHTML = "Game over!  You destroyed " + score + " invaders!";
     beginModal.style.display = "block";
   }
