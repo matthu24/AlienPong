@@ -25,14 +25,6 @@ Ball.prototype.drawBall = function drawBall(ship) {
   if(this.ballY + this.ballDY < this.ballRadius) {
       this.ballDY = -this.ballDY;
   }else {
-    //if this.ball hits the ship it changes direction
-    // if (this.ballY + this.ballDY === canvas.height-this.ballRadius-ship.shipHeight&&this.ballX > ship.shipX && this.ballX < ship.shipX + ship.shipWidth) {
-    //   this.ballDY = -this.ballDY;
-    //   this.ballDX = -this.ballDX;
-    // }
-    // if(this.ballY > canvas.height-this.ballRadius-ship.shipHeight&&this.ballX > ship.shipX-this.ballRadius && this.ballX < ship.shipX + ship.shipWidth) {
-    //   return false
-    // }else
     const ballHitsYPlane = this.ballY + this.ballDY > canvas.height-this.ballRadius-ship.shipHeight;
     const ballWithinShip = this.ballX > ship.shipX && this.ballX < ship.shipX + ship.shipWidth;
     const ballLeftEdge = this.ballX > ship.shipX-this.ballRadius && this.ballX < ship.shipX;
@@ -57,23 +49,11 @@ Ball.prototype.drawBall = function drawBall(ship) {
         }else{
           this.ballDY = Math.abs(this.ballDY)*-1;
           this.ballDX = -this.ballDX;
-
         }
-
       }else if(this.ballY > canvas.height + this.ballRadius/2){
         return false;
       }
-
     }
-  // else if(this.ballY > canvas.height+this.ballRadius){
-  //     return false;
-  //   }
-
-
-    // else if (this.ballY + this.ballDY > canvas.height+this.ballRadius ) {
-    // //if ship and this.ball are on the same y coordinate
-    //   return false;
-    // }
   }
   this.ballX+=this.ballDX;
   this.ballY+=this.ballDY;

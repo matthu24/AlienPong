@@ -7,9 +7,6 @@ function Explode(){
   this.numberOfParticules = 30;
   this.colors = ['#FF1461', '#18FF92', '#5A87FF', '#FBF38C'];
 }
-// var pointerX = 0;
-// var pointerY = 0;
-// var tap = ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown';
 
 Explode.prototype.explosion = function explosion(explodeX,explodeY){
   const numberOfParticules = this.numberOfParticules;
@@ -101,18 +98,8 @@ Explode.prototype.explosion = function explosion(explodeX,explodeY){
   var render = anime({
     duration: Infinity,
     update: function() {
-      // ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
     }
   });
-
-
-  //triggers animation
-  //sets location
-  // btn.onclick = function(){
-  //   debugger;
-  //   animateParticules(canvasEl.width/4,canvasEl.height/4);
-  //
-  // }
 
 
   const explode = function(x,y){
@@ -121,9 +108,4 @@ Explode.prototype.explosion = function explosion(explodeX,explodeY){
   explode(explodeX,explodeY);
 };
 
-
 export default Explode;
-
-//
-// setCanvasSize();
-// window.addEventListener('resize', setCanvasSize, false);

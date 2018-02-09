@@ -7,10 +7,7 @@ import Explode from "./explode";
 
 export const canvas = document.getElementById("myCanvas");
 export const ctx = canvas.getContext("2d");
-// document.onload(drawInitial());
-// document.addEventListener("DOMContentLoaded", drawInitial);
-// document.onload = drawInitial();
-// setTimeout(drawInitial,0)
+
 drawInitial();
 window.onload = function() {
   drawInitial();
@@ -31,19 +28,8 @@ let downPressed = false;
 let score = 0;
 let ballLive = true;
 
+//initial game image
 function drawInitial(){
-  // ctx.beginPath();
-  // //x,y coords of the top left coner of a rect
-  // //x,y coords of the bottom right of a rect
-  //
-  // //(pos left the start of the shape,pos down the start of the shape, width, height )
-  // // ctx.rect(shipX, canvas.height-shipHeight, shipWidth, shipHeight);
-  // ctx.rect(0, 0, canvas.width/2, canvas.height/2);
-  //
-  // ctx.fillStyle = "#0095DD";
-  // ctx.fill();
-  // ctx.closePath();
-
   var image = new Image(100,200);
 image.src = "https://s3.us-east-2.amazonaws.com/greenapron/sprite3.png";
 ctx.drawImage(image, 0, 0, 500,340);
@@ -83,7 +69,6 @@ function speedBall(){
 }
 
 function draw() {
-
   ctx.clearRect(0,0,canvas.width,canvas.height);
   ship.drawShip(rightPressed,leftPressed);
   let ballUpdate = ball.drawBall(ship);
@@ -146,8 +131,6 @@ function beginGame(){
   setInterval(draw,10);
   setInterval(speedBall,5000);
 }
-
-
 
 
 // Get the beginModal
