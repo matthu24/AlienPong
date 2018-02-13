@@ -557,7 +557,7 @@ function drawInitial() {
   // ctx.closePath();
 
   var image = new Image(100, 200);
-  image.src = "https://s3.us-east-2.amazonaws.com/greenapron/sprite3.png";
+  image.src = "https://s3.us-east-2.amazonaws.com/personalwebsite1/Screen+Shot+2018-02-12+at+9.41.19+PM.png";
   ctx.drawImage(image, 0, 0, 500, 340);
 }
 
