@@ -116,7 +116,11 @@ function keyDown(e) {
       //arrow up
   }else if (e.keyCode == 38) {
     upPressed = true;
-  }else if (e.keyCode==40){
+
+  }else if (e.keyCode == 32){
+    upPressed = true;
+  }
+  else if (e.keyCode==40){
     downPressed = true;
   }
 }
@@ -128,7 +132,7 @@ function keyUp(e) {
   }
   else if(e.keyCode == 37) {
       leftPressed = false;
-  }else if (e.keyCode == 38) {
+  }else if (e.keyCode == 38 || e.keyCode == 32) {
     upPressed = false;
   }else if (e.keyCode==40){
     downPressed = false;
